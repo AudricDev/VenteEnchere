@@ -78,4 +78,30 @@ class Media(models.Model):
     
     def __str__(self):
         return self.image 
-    
+
+#model offre
+class Offre(models.Model):
+
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
+    )
+
+    montant = models.DecimalField(max_digits=12, decimal_places=2)
+
+    horodatage = models.DateTimeField(auto_now_add=True)
+
+    utilisateur = models.ForeignKey(
+        ProfilUtilisateur,
+        on_delete=models.CASCADE
+    )
+
+    enchere = models.ForeignKey(
+        Enchere,
+        on_delete=models.CASCADE,
+        related_name='offres'
+    )
+
+    class Meta:
+        ordering = ['-montant']
