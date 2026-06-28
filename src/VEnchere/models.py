@@ -105,3 +105,89 @@ class Offre(models.Model):
 
     class Meta:
         ordering = ['-montant']
+
+# model paiement
+class Paiement(models.Model):
+
+    METHODE = (
+        ('paypal','Paypal'),
+        ('stripe','Stripe'),
+        ('mobile_money','Mobile Money'),
+    )
+
+    STATUT = (
+        ('attente','En attente'),
+        ('effectue','Effectué'),
+        ('rembourse','Remboursé'),
+    )
+
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
+    )
+
+    transaction_externe = models.CharField(
+        max_length=255,
+        blank=True
+    )
+
+    montant_total = models.DecimalField(
+        max_digits=12,
+        decimal_places=2
+    )
+
+    frais_plateforme = models.DecimalField(
+        max_digits=12,
+        decimal_places=2
+    )
+
+    methode = models.CharField(
+        max_length=30,
+        choices=METHODE
+    )
+
+    statut = models.CharField(
+        max_length=30,
+        choices=STATUT,
+        default='attente'
+    )
+
+    date_creation = models.DateTimeField(
+        auto_now_add=True
+    )
+
+#model transaction
+class Transaction(models.Model):
+
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
+    )
+
+    enchere = models.OneToOneField(
+        Enchere,
+        on_delete=models.CASCADE
+    )
+
+    acheteur = models.ForeignKey(
+        ProfilUtilisateur,
+        on_delete=models.CASCADE,
+        related_name='achats'
+    )
+
+    vendeur = models.ForeignKey(
+        ProfilUtilisateur,
+        on_delete=models.CASCADE,
+        related_name='ventes'
+    )
+
+    paiement = models.OneToOneField(
+        'Paiement',
+        on_delete=models.CASCADE
+    )
+
+    date_cloture = models.DateTimeField(auto_now_add=True)
+
+    est_livre = models.BooleanField(default=False)

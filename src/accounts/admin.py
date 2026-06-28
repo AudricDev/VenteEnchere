@@ -1,6 +1,6 @@
 from django.contrib import admin
 from accounts.models import ProfilUtilisateur
-from VEnchere.models import Categorie,Enchere,Media
+from VEnchere.models import *
 # Register your models here.
 class ProfilUtilisateurAdmin(admin.ModelAdmin):
     class Meta:
@@ -24,3 +24,21 @@ class MediaAdmin(admin.ModelAdmin):
     class Meta:
         list_display = ('image')
 admin.site.register(Media, MediaAdmin)
+
+#  affichage de l'offre dans admin
+class OffreAdmin(admin.ModelAdmin):
+    class Meta:
+        list_display = ('montant','horodatage','utilisateur','enchere')
+admin.site.register(Offre, OffreAdmin)
+
+#affichage du paiement dans admin
+class PaiementAdmin(admin.ModelAdmin):
+    class Meta:
+        list_display = ('transaction_externe','montant_total','frais_plateforme','methode','statut','date_creation')
+admin.site.register(Paiement,PaiementAdmin)
+
+#affichage du transaction dans admin
+class TransactionAdmin(admin.ModelAdmin):
+    class Meta:
+        list_display = ('enchere','acheteur','vendeur','paiement','date_cloture','est_livre')
+admin.site.register(Transaction, TransactionAdmin)
