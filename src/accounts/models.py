@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 import uuid
 
+#model profil pour ajout complémentaire de l'User
 class ProfilUtilisateur(models.Model):
     ROLE_CHOICE = (
         ('Admin','Admin'),
@@ -31,7 +32,22 @@ class ProfilUtilisateur(models.Model):
         null=True
     )
 
-    date_creation = models.DateTimeField(auto_now_add=True)
+    date_creation = models.DateTimeField(auto_now_add=True, blank=True)
 
     def __str__(self):
         return self.user.username
+
+# modele catégorie
+class Categorie(models.Model):
+
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
+    )
+
+    nom = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True)
+
+    def __str__(self):
+        return self.nom
