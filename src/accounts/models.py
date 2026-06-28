@@ -1,22 +1,37 @@
 from django.db import models
 from django.contrib.auth.models import User
-# Create your models here.
+import uuid
+
 class ProfilUtilisateur(models.Model):
     ROLE_CHOICE = (
         ('Admin','Admin'),
         ('Vendeur','Vendeur'),
         ('Acheteur','Acheteur'),
     )
-    name = models.CharField(max_length=50,blank=True)
-    phone_number = models.CharField(max_length=50)
-    role = models.CharField(max_length=50, choices=ROLE_CHOICE, default='Acheteur')
-    avatar = models.ImageField(upload_to='Utilisateur', blank=True, null=True)
-    
-    user = models.OneToOneField(User,on_delete=models.CASCADE, blank=True,null=True)
-    
+    #universal unique identifiant
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
+    )
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    phone_number = models.CharField(max_length=20)
+
+    role = models.CharField(
+        max_length=20,
+        choices=ROLE_CHOICE,
+        default='Acheteur'
+    )
+
+    avatar = models.ImageField(
+        upload_to='utilisateurs/',
+        blank=True,
+        null=True
+    )
+
+    date_creation = models.DateTimeField(auto_now_add=True)
+
     def __str__(self):
-        return self.name
-    
-    class Meta:
-        verbose_name = 'ProfilUtilisateur'
-        verbose_name_plural = 'ProfilUtilisateurs'
+        return self.user.username
