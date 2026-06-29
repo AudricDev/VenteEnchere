@@ -3,6 +3,21 @@ from accounts.models import ProfilUtilisateur
 import uuid
 # Create your models here.
 
+# modele catégorie
+class Categorie(models.Model):
+
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
+    )
+
+    nom = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True)
+
+    def __str__(self):
+        return self.nom
+
 # modele produit
 class Produit(models.Model):
     ROLE_CHOICE = (
@@ -43,20 +58,6 @@ class Produit(models.Model):
     def __str__(self):
         return self.nom
 
-# modele catégorie
-class Categorie(models.Model):
-
-    id = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False
-    )
-
-    nom = models.CharField(max_length=100)
-    slug = models.SlugField(unique=True)
-
-    def __str__(self):
-        return self.nom
 
 # modele enchère
 class Enchere(models.Model):

@@ -25,12 +25,6 @@ class EnchereAdmin(admin.ModelAdmin):
         list_display = ('titre','description','prix_depart','prix_actuel','prix_reserve','date_debut','date_fin','statut','vendeur','categorie')
 admin.site.register(Enchere, EnchereAdmin)
 
-#affichage du media dans admin
-class MediaAdmin(admin.ModelAdmin):
-    class Meta:
-        list_display = ('image')
-admin.site.register(Media, MediaAdmin)
-
 #  affichage de l'offre dans admin
 class OffreAdmin(admin.ModelAdmin):
     class Meta:
