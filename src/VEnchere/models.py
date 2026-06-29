@@ -2,6 +2,37 @@ from django.db import models
 from accounts.models import ProfilUtilisateur
 import uuid
 # Create your models here.
+
+# modele produit
+class Produit(models.Model):
+    ROLE_CHOICE = (
+        ('Disponible','Disponible'),
+        ('En enchere','En enchère'),
+        ('Vendu','Vendu'),
+        ('Retire','Retiré')
+    )
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
+    )
+    nom = models.CharField(max_length=100)
+    description = models.TextField()
+    etat = models.CharField(
+        max_length=20,
+        choices=ROLE_CHOICE,
+        default='Disponible'
+    )
+    marque = models.CharField(max_length=50)
+    modele = models.CharField(max_length=50)
+    couleur = models.CharField(max_length=20)
+    poids = models.DecimalField(max_digits=8,decimal_places=2)
+    date_creation = models.DateTimeField()
+    reference = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.nom
+
 # modele catégorie
 class Categorie(models.Model):
 
@@ -127,11 +158,6 @@ class Paiement(models.Model):
         editable=False
     )
 
-    transaction_externe = models.CharField(
-        max_length=255,
-        blank=True
-    )
-
     montant_total = models.DecimalField(
         max_digits=12,
         decimal_places=2
@@ -165,29 +191,16 @@ class Transaction(models.Model):
         default=uuid.uuid4,
         editable=False
     )
+    date_cloture = models.DateTimeField(auto_now_add=True)
+
+    est_livre = models.BooleanField(default=False)
 
     enchere = models.OneToOneField(
         Enchere,
         on_delete=models.CASCADE
     )
 
-    acheteur = models.ForeignKey(
-        ProfilUtilisateur,
-        on_delete=models.CASCADE,
-        related_name='achats'
-    )
-
-    vendeur = models.ForeignKey(
-        ProfilUtilisateur,
-        on_delete=models.CASCADE,
-        related_name='ventes'
-    )
-
     paiement = models.OneToOneField(
         'Paiement',
         on_delete=models.CASCADE
     )
-
-    date_cloture = models.DateTimeField(auto_now_add=True)
-
-    est_livre = models.BooleanField(default=False)
