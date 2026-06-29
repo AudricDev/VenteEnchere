@@ -7,7 +7,13 @@ class ProfilUtilisateurAdmin(admin.ModelAdmin):
         list_display = ('id','phone_number','role','avatar','user')
 admin.site.register(ProfilUtilisateur,ProfilUtilisateurAdmin)
         
-# affichage du categorie dans admin django
+# affichage du produit dans admin
+class ProduitAdmin(admin.ModelAdmin):
+    class Meta :
+        list_display = ('nom','description','etat','marque','modele','couleur','poids','date_creation','reference')
+admin.site.register(Produit, ProduitAdmin)
+
+# affichage du categorie dans admin 
 class CategorieAdmin(admin.ModelAdmin):
     class Meta:
         list_display = ('id','nom','slug')

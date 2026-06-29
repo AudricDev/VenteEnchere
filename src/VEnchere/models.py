@@ -30,6 +30,16 @@ class Produit(models.Model):
     date_creation = models.DateTimeField()
     reference = models.CharField(max_length=50)
 
+    categorie = models.OneToOneField(
+        Categorie,
+        on_delete=models.CASCADE
+    )
+
+    utilisateur = models.ForeignKey(
+        ProfilUtilisateur,
+        on_delete=models.CASCADE
+    )
+
     def __str__(self):
         return self.nom
 
@@ -82,33 +92,13 @@ class Enchere(models.Model):
         related_name='encheres'
     )
 
-    categorie = models.ForeignKey(
-        Categorie,
+    produit = models.ForeignKey(
+        Produit,
         on_delete=models.CASCADE
     )
 
     def __str__(self):
         return self.titre
-
-#modele Media
-class Media(models.Model):
-
-    id = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False
-    )
-
-    image = models.ImageField(upload_to='encheres/')
-
-    enchere = models.ForeignKey(
-        Enchere,
-        on_delete=models.CASCADE,
-        related_name='images'
-    )
-    
-    def __str__(self):
-        return self.image 
 
 #model offre
 class Offre(models.Model):
@@ -128,7 +118,7 @@ class Offre(models.Model):
         on_delete=models.CASCADE
     )
 
-    enchere = models.ForeignKey(
+    enchere = models.OneToOneField(
         Enchere,
         on_delete=models.CASCADE,
         related_name='offres'
