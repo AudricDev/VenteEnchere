@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+</head>
+<body>
+    <div class="container_formulaire">
+        <div class="container_connexion">
+            <div class="container_logo">
+                <div class="logo_formulaire">Royal enchère</div>
+                <div class="image_logo">
+                    <img src="{% static 'images/marteau-enchère3mdf.png' %}" alt="">
+                </div>
+            </div>
+            <div class="container_form">
+                <div class="titre_form">Connexion</div>
+                <div class="formulaire">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="form_control">
+                            <input class="email" type="email" placeholder="Votre@gmail.com" name="email">
+                        </div>
+                        <div class="form_control">
+                            <input class="mdp" type="password" placeholder="Insérez votre mot de passe" name="password">
+                        </div>
+                        <div class="form_control">
+                            <input class="btn_connexion" type="submit" value="Se connecter">
+                        </div>
+                        <div class="form_controls">
+                            <a href="{% url "inscription" %}">Créer un compte</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vente aux enchere</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome-free-6.2.1-web/css/all.min.css' %}">
+</head>
+<body>
+<header>
+    <nav>
+        <div class="navigation">
+            <div class="fond">
+                <img src="{% static 'images/marteau-enchère3mdf.png' %}" alt="" class="imgFond">
+            </div>
+            <div class="logo">
+                <span> Royal <br>enchère </span>
+                <div class="imgLogo">
+                    <img 
+                        src="{% static 'images/marteau-enchère3mdf.png' %}" 
+                        alt=""
+                        style="width: 50px;height:50px;">
+                </div>
+            </div>
+            <div class="nav_item">
+                <ul>
+                    <li class="nav_link">
+                        <a href="" class="link">Accueil</a>
+                    </li>
+                    <li class="nav_link">
+                        <a href="#apropos" class="link">A propos</a>
+                    </li>
+                    <li class="nav_link">
+                        <a href="#nosEnchere" class="link">Nos enchères</a>
+                    </li>
+                    <li class="nav_link">
+                        <a href="#avantages" class="link">Avantages</a>
+                    </li>
+                    <li class="nav_link">
+                        <a href="#contact" class="link">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="btn_item">
+                <a href="" class="btn_link">
+                    <button>Se connecter</button>
+                </a>
+                <a href="" class="btn_link">
+                    <button>Créer un compte</button>
+                </a>
+            </div>
+        </div>
+    </nav>
+</header>
+<main>
+    <section class="titre">
+        <h1 class="grand_titre">Royale enchère</h1>
+        <h2 class="description">L'exellence n'attend que votre offre</h2>
+        <a href="#nosEnchere" class="btn_action">
+            <button>Voir l'enchère en cours</button>
+        </a>
+    </section>
+    <section id="apropos">
+        <div class="title">À propos de la plateforme</div>
+        <div class="descriptionPropos">
+            <div class="boitePropos">
+                <div class="logoPropos">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="textPropos">
+                    <h2>Plateforme</h2>
+                Cette plateforme de vente aux enchères est une application web développée dans le but de digitaliser et d'optimiser le processus traditionnel des ventes aux enchères. Elle permet aux vendeurs de publier des articles destinés à être mis aux enchères et aux acheteurs de participer aux enchères en proposant des offres selon les règles définies par le système.
+                </div>
+            </div>
+            <div class="boitePropos">
+                <div class="logoPropos">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="textPropos">
+                    <h2>Valeur ajoutée</h2>
+                Cette solution vise à faciliter les transactions entre les différents acteurs tout en garantissant la transparence, la traçabilité et la sécurité des opérations réalisées sur la plateforme. Grâce à une interface conviviale et accessible, les utilisateurs peuvent consulter les enchères en cours, soumettre des offres et suivre l'évolution des ventes en temps réel.
+                </div>
+            </div>
+            <div class="boitePropos">
+                <div class="logoPropos">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="textPropos">
+                    <h2>Fonctionnalités clés</h2>
+                Cette plateforme intègre plusieurs fonctionnalités essentielles telles que la gestion des utilisateurs, la publication des articles, le suivi des enchères, la détermination automatique du gagnant ainsi que la gestion de l'historique des transactions. Ces fonctionnalités contribuent à améliorer l'efficacité du processus de vente et à réduire les contraintes liées aux enchères traditionnelles.
+                </div>
+            </div>
+            <div class="boitePropos">
+                <div class="logoPropos">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="textPropos">
+                    <h2>Engagements</h2>
+                     <p>
+                    Faciliter la mise en relation entre vendeurs et acheteurs. 
+                    <br>
+                    Automatiser le processus de gestion des enchères.
+                    Garantir la transparence des offres et des résultats.
+                    <br>
+                    Assurer la sécurité des données et des transactions.
+                    <br>
+                    Offrir une solution accessible depuis n'importe quel appareil connecté à Internet.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+    <section id="nosEnchere">
+        <div class="title">Decouvrir les enchères en cours</div>
+        <div class="categories" id="categories">
+            <div class="recherche">
+                <form action="" method="get">
+                    <input class="zone_search" type="search" name="search" placeholder="Rechercher un produit">
+                    <input class="btn_search" type="submit" value="Rechercher">
+                </form>
+            </div>
+            <div class="categorie_list">
+                <ul>
+                    <li><a href=""><i class="fas fa-truck-plane"></i> Vehicules</a></li>
+                    <li><a href=""><i class="fas fa-house-chimney-window"></i> Immobilier</a></li>
+                    <li><a href=""><i class="fas fa-paintbrush"></i> Arts</a></li>
+                    <li><a href=""><i class="fab fa-cuttlefish"></i> Collections</a></li>
+                    <li><a href=""><i class="fas fa-list"></i> Tout</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="encheres">
+            <div class="produit">
+                <div class="boiteImage">
+                    <img src="assets/images/villa-avec-piscine-terrasse-palmeraie.webp" alt="">
+                </div>
+                <div class="descriptionProduit">
+                    <div class="titreProduit">Villa Fitiavana</div>
+                    <div class="chrono"><i class="fab fa-algolia"></i> Temps restant : 20:30:05</div>
+                </div>
+                <div class="boiteBtn">
+                    <a href="">
+                        <button>Détails</button>
+                    </a>
+                    <a href="">
+                        <button>Enchérir</button>
+                    </a>
+                </div>
+            </div>
+            <div class="produit">
+                <div class="boiteImage">
+                    <img src="assets/images/Mona-Lisa-oil-wood-panel-Leonardo-da.webp" alt="">
+                </div>
+                <div class="descriptionProduit">
+                    <div class="titreProduit">Art</div>
+                    <div class="chrono"><i class="fab fa-algolia"></i> Temps restant : 05:50:00</div>
+                </div>
+                <div class="boiteBtn">
+                    <a href="">
+                        <button>Détails</button>
+                    </a>
+                    <a href="">
+                        <button>Enchérir</button>
+                    </a>
+                </div>
+            </div>
+            <div class="produit">
+                <div class="boiteImage">
+                    <img src="assets/images/original.jpg" alt="">
+                </div>
+                <div class="descriptionProduit">
+                    <div class="titreProduit">Crafter</div>
+                    <div class="chrono"><i class="fab fa-algolia"></i> Temps restant : 19:50:00</div>
+                </div>
+                <div class="boiteBtn">
+                    <a href="">
+                        <button>Détails</button>
+                    </a>
+                    <a href="">
+                        <button>Enchérir</button>
+                    </a>
+                </div>
+            </div>
+            <div class="produit">
+                <div class="boiteImage">
+                    <img src="assets/images/images.jpg" alt="">
+                </div>
+                <div class="descriptionProduit">
+                    <div class="titreProduit">l'oeil avec code secret</div>
+                    <div class="chrono"><i class="fab fa-algolia"></i> Temps restant : 16:24:00</div>
+                </div>
+                <div class="boiteBtn">
+                    <a href="">
+                        <button>Détails</button>
+                    </a>
+                    <a href="">
+                        <button>Enchérir</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="avantages">
+        <div class="title">Pourquoi nous choisir ?</div>
+        <div class="avantages">
+            <div class="boiteAvantage">
+                <div class="logoAvantage">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="textAvantage">
+                    <h2>Sécurité</h2>
+                    Protection des comptes utilisateurs.
+                    Gestion sécurisée des enchères.
+                </div>
+            </div>
+            <div class="boiteAvantage">
+                <div class="logoAvantage">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="textAvantage">
+                    <h2>Rapidité</h2>
+                        Participation aux enchères en temps réel.
+                        Consultation instantanée des offres.
+                </div>
+            </div>
+            <div class="boiteAvantage">
+                <div class="logoAvantage">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="textAvantage">
+                    <h2>Accessibilité</h2>
+                        Disponible 24h/24 depuis n'importe quel appareil connecté à Internet.
+                </div>
+            </div>
+            <div class="boiteAvantage">
+                <div class="logoAvantage">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="textAvantage">
+                    <h2>Transparence</h2>
+                        Historique des offres.
+                        Affichage clair du meilleur enchérisseur.
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="contact">
+        <div class="title">Contact</div>
+        <div class="contact">
+            <div class="contact_container">
+            
+                <!-- INFOS -->
+                <div class="contact_info">
+                    <h2>Nous contacter</h2>
+            
+                    <p>
+                        Une question sur les enchères ? Nous sommes disponible pour vous répondre rapidement.
+                    </p>
+            
+                    <div class="info_box">
+                        <p>atfatoky@gmail.com</p>
+                        <p>+261 34 79 901 31</p>
+                        <p>Antananarivo, Madagascar</p>
+                        <p>Lundi - Vendredi : 08h - 17h</p>
+                    </div>
+                </div>
+            
+                <!-- FORMULAIRE -->
+                <div class="contact_form">
+                    <form method="post">
+                        <input type="text" placeholder="Votre nom">
+                        <input type="email" placeholder="Votre email">
+                        <input type="text" placeholder="Sujet">
+                        <textarea placeholder="Votre message"></textarea>
+            
+                        <button type="submit">Envoyer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<footer class="footer">
+    <div class="footer_container">
+
+        <!-- Logo / description -->
+        <div class="footer_box">
+            <h2 class="footer_logo">Royal enchère</h2>
+            <p>
+                Plateforme de vente aux enchères en ligne permettant
+                aux utilisateurs de proposer et d’acheter des produits en toute sécurité.
+            </p>
+        </div>
+
+        <!-- Liens -->
+        <div class="footer_box">
+            <h3>Navigation</h3>
+            <ul>
+                <li><a href="#apropos">Accueil</a></li>
+                <li><a href="#nosEnchere">Produits</a></li>
+                <li><a href="#categories">Catégories</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+
+        <!-- Contact -->
+        <div class="footer_box">
+            <h3>Contact</h3>
+            <p>atfatoky@gmail.com</p>
+            <p>+261 34 79 901 31</p>
+            <p>Antananarivo, Madagascar</p>
+        </div>
+
+        <!-- Réseaux -->
+        <div class="footer_box">
+            <h3>Suivez-nous</h3>
+            <div class="socials">
+                <a href="#"> <i class="fab fa-facebook"></i> Facebook</a>
+                <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                <a href="#"><i class="fab fa-twitter-square"></i> Twitter</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer_bottom">
+        <p>© 2026 Royal enchère - Tous droits réservés</p>
+    </div>
+</footer>
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
