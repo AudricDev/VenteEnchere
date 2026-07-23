@@ -1,0 +1,53 @@
+{% load static %}
+<header>
+    <nav>
+        <div class="navigation">
+            <div class="fond">
+                <img src="{% static 'images/marteau-enchère3mdf.png' %}" alt="" class="imgFond">
+            </div>
+            <div class="logo">
+                <span> Royal <br>enchère </span>
+                <div class="imgLogo">
+                    <img 
+                        src="{% static 'images/marteau-enchère3mdf.png' %}" 
+                        alt=""
+                        style="width: 50px;height:50px;">
+                </div>
+            </div>
+            <div class="nav_item">
+                <ul>
+                    <li class="nav_link">
+                        <a href="" class="link">Accueil</a>
+                    </li>
+                    <li class="nav_link">
+                        <a href="#apropos" class="link">A propos</a>
+                    </li>
+                    <li class="nav_link">
+                        <a href="#nosEnchere" class="link">Nos enchères</a>
+                    </li>
+                    <li class="nav_link">
+                        <a href="#avantages" class="link">Avantages</a>
+                    </li>
+                    <li class="nav_link">
+                        <a href="#contact" class="link">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="btn_item">
+                {% if request.user.is_authenticated %}
+                <span>{{ request.user }}</span>
+                <a href="{% url 'deconnexion' %}" class="btn_link">
+                    <button>Deconnecter</button>
+                </a>
+                {% else %}
+                <a href="" class="btn_link">
+                    <button>Se connecter</button>
+                </a>
+                <a href="" class="btn_link">
+                    <button>Créer un compte</button>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+</header>
