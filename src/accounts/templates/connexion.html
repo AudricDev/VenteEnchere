@@ -19,8 +19,11 @@
             <div class="container_form">
                 <div class="titre_form">Connexion</div>
                 <div class="formulaire">
-                    <form action="" method="POST">
+                    <form action="{% url 'connexion' %}" method="POST">
                         {% csrf_token %}
+                        {% for error in errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
                         <div class="form_control">
                             <input class="email" type="email" placeholder="Votre@gmail.com" name="email">
                         </div>

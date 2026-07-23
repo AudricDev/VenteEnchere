@@ -44,12 +44,19 @@
                 </ul>
             </div>
             <div class="btn_item">
+                {% if request.user.is_authenticated %}
+                <span>{{ request.user }}</span>
+                <a href="{% url 'deconnexion' %}" class="btn_link">
+                    <button>Deconnecter</button>
+                </a>
+                {% else %}
                 <a href="" class="btn_link">
                     <button>Se connecter</button>
                 </a>
                 <a href="" class="btn_link">
                     <button>Créer un compte</button>
                 </a>
+                {% endif %}
             </div>
         </div>
     </nav>
