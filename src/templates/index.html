@@ -1,7 +1,11 @@
 {% extends "layouts/base.html" %}
 {% block content %}
+{% load static %}
 <main>
     <section class="titre">
+        <div class="fond">
+                <img src="{% static 'images/marteau-enchère3mdf.png' %}" alt="" class="imgFond">
+        </div>
         <h1 class="grand_titre">Royale enchère</h1>
         <h2 class="description">L'exellence n'attend que votre offre</h2>
         <a href="#nosEnchere" class="btn_action">
@@ -88,11 +92,8 @@
                     <div class="chrono"><i class="fab fa-algolia"></i> Temps restant : 20:30:05</div>
                 </div>
                 <div class="boiteBtn">
-                    <a href="">
-                        <button>Détails</button>
-                    </a>
-                    <a href="">
-                        <button>Enchérir</button>
+                    <a href="{% url 'detail_enchere' %}">
+                        <button>S'inscrire à l'enchère</button>
                     </a>
                 </div>
             </div>
@@ -105,11 +106,8 @@
                     <div class="chrono"><i class="fab fa-algolia"></i> Temps restant : 05:50:00</div>
                 </div>
                 <div class="boiteBtn">
-                    <a href="">
-                        <button>Détails</button>
-                    </a>
-                    <a href="">
-                        <button>Enchérir</button>
+                    <a href="{% url 'detail_enchere' %}">
+                        <button>S'inscrire à l'enchère</button>
                     </a>
                 </div>
             </div>
@@ -122,11 +120,8 @@
                     <div class="chrono"><i class="fab fa-algolia"></i> Temps restant : 19:50:00</div>
                 </div>
                 <div class="boiteBtn">
-                    <a href="">
-                        <button>Détails</button>
-                    </a>
-                    <a href="">
-                        <button>Enchérir</button>
+                    <a href="{% url 'detail_enchere' %}">
+                        <button>S'inscrire à l'enchère</button>
                     </a>
                 </div>
             </div>
@@ -136,14 +131,12 @@
                 </div>
                 <div class="descriptionProduit">
                     <div class="titreProduit">l'oeil avec code secret</div>
+                    <div class="">Prix de départ: 200.000 Ar</div>
                     <div class="chrono"><i class="fab fa-algolia"></i> Temps restant : 16:24:00</div>
                 </div>
                 <div class="boiteBtn">
-                    <a href="">
-                        <button>Détails</button>
-                    </a>
-                    <a href="">
-                        <button>Enchérir</button>
+                    <a href="{% url 'detail_enchere' %}">
+                        <button>S'inscrire à l'enchère</button>
                     </a>
                 </div>
             </div>

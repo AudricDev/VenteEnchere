@@ -48,3 +48,9 @@ def inscription(request):
             login(request, data)
             return render(request,'index.html')
     return render(request,'inscription.html')
+
+def inscription_enchere(request):
+    return render(request,'pages/incription_enchere.html')
+
+def detail_enchere(request):
+    return render(request,'pages/detail_enchere.html')

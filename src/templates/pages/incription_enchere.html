@@ -1,0 +1,64 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+    <main>
+        <form action="" method="post">
+            <div class="container_inscription">
+                <div class="profil">
+                    <img src="../../static/images/images.jpg" class="image_profil" id="image_profil" alt="">
+                    <br><br>
+                    <label for="profil" class="modifProfil" id="modifProfil">
+                        Modifier profil <i class="fa-solid fa-pen"></i>
+                    </label>
+                    <input type="file" id="profil" hidden>
+                </div>
+                <div class="left">
+                    <div>
+                        <label for="">Nom</label><br>
+                        <input type="text" value="{{request.user.first_name}}">
+                    </div>
+                    <div>
+                        <label for="">Prénom</label><br>
+                        <input type="text" value="{{request.user.last_name}}">
+                    </div>
+                    <div>
+                        <label for="">Email</label><br>
+                        <input type="email" value="{{request.user.email}}" disabled>
+                    </div>
+                </div>
+                <div class="right">
+                    <div>
+                        <label for="">Nom d'utilisateur</label><br>
+                        <input type="text" value="{{request.user.username}}">
+                    </div>
+                    <div>
+                        <label for="">Numéro téléphone</label><br>
+                        <input type="text" placeholder="+261 xx xxx xx">
+                    </div><br>
+                    <div class="btn">
+                            <a href="{% url 'index' %}">
+                                <button>Retour</button>
+                            </a>
+                            <a href="">
+                                <button>Enregistrer</button>
+                            </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </main>
+    <script>
+        const inputProfil = document.getElementById("profil");
+        const imageProfil = document.getElementById("image_profil");
+
+        inputProfil.addEventListener("change", function () {
+
+            const fichier = this.files[0];
+
+            if (fichier) {
+                imageProfil.src = URL.createObjectURL(fichier);
+            }
+
+        });
+
+    </script>
+{% endblock  %}

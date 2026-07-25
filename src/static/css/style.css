@@ -871,3 +871,74 @@ RESPONSIVE
 }
 
 }
+/* INSCRIPTION ENCHERE COURANT */
+.container_inscription{
+    width: 100%;
+    height: 50%;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 10px;
+    margin-top: 20px;
+}
+.profil{
+    border-radius: 20px;
+    text-align: center;
+    
+}
+.profil .image_profil{
+    width: 300px;
+    height: 300px;
+    border-radius: 20px;
+}
+.modifProfil{
+    border: 1px solid var(--secondary--);
+    padding: 5px;
+    margin-top: 5px;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 0 10px 15px var(--primary--);
+}
+.left{
+    padding: 20px;
+    background: var(--white--);
+    box-shadow: 0 5px 5px var(--black--);
+    border-radius: 20px;
+}
+.right{
+    padding: 20px;
+    background: var(--white--);
+    box-shadow: 0 5px 5px var(--black--);
+    border-radius: 20px;
+
+}
+.left div,.right div{
+    margin-top: 10px;
+}
+.left div input,.right div input{
+    width: 100%;
+    padding: 7.5px;
+    border-radius: 5px;
+    border:1px solid var(--primary--) ;
+    box-shadow: 0 2px 5px var(--primary--);
+}
+.right .btn{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    gap: 5px;
+}
+.right .btn a button{
+    padding: 7.5px 10px;
+    border-radius: 5px;
+    border-style: none;
+    box-shadow: 0 10px 15px var(--primary--);
+    font-weight: bold;
+    border:1px solid var(--secondary--);
+    color: var(--secondary--);
+}
+.right .btn a button:hover,.modifProfil:hover{
+    color:var(--white--);
+    transform: translateY(-5px);
+    transition: .5s;
+    background: var(--secondary--);
+}
