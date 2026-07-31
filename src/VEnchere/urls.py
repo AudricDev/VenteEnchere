@@ -7,5 +7,6 @@ urlpatterns = [
     path('inscription/',views.inscription,name='inscription'),
     path('detail_enchere/',views.detail_enchere,name='detail_enchere'),
     path('inscription_enchere/',views.inscription_enchere,name='inscription_enchere'),
+    path('pageCreerEnchere/',views.pageCreerEnchere,name='pageCreerEnchere'),
     
 ]

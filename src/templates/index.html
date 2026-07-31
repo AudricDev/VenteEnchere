@@ -6,14 +6,14 @@
         <div class="fond">
                 <img src="{% static 'images/marteau-enchère3mdf.png' %}" alt="" class="imgFond">
         </div>
-        <h1 class="grand_titre">Royale enchère</h1>
+        <h1 class="grand_titre"></h1>
         <h2 class="description">L'exellence n'attend que votre offre</h2>
         <div class="btn_action">
             <a href="#nosEnchere" class="btn_action1">
                 <button>Voir l'enchère en cours</button>
             </a>
             {% if request.user.is_authenticated %}
-            <a href="" class="btn_action">
+            <a href="{% url 'pageCreerEnchere' %}" class="btn_action2">
                 <button>Créer une enchère</button>
             </a>
             {% else %}

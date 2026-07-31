@@ -1,11 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Creation d'enchere</h1>
-</body>
-</html>
+{% extends "layouts/base.html" %}
+{% include "components/header.html" %}
+{% block content %}
+<div class="container">
+    <form action="" method="post">
+        <div class="information_perso">
+            <div>
+                <label for="nom">Nom vendeur</label>
+                <input type="text" value="{{ request.user.email}}">
+            </div>
+            <div>
+                <label for="nom">Nom vendeur</label>
+                <input type="text" value="{{ request.user.email}}">
+            </div>
+            <div>
+                <label for="nom">Nom vendeur</label>
+                <input type="text" value="{{ request.user.email}}">
+            </div>
+        </div>
+        <div class="information_produit">
+            <div>
+                <label for="nom">Nom </label>
+                <input type="text" value="{{ request.user.email}}">
+            </div>
+            <div>
+                <label for="nom">Nom vendeur</label>
+                <input type="text" value="{{ request.user.email}}">
+            </div>
+            <div>
+                <label for="nom">Nom vendeur</label>
+                <input type="text" value="{{ request.user.email}}">
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock  %}
+{% include "components/footer.html" %}

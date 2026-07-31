@@ -54,3 +54,7 @@ def inscription_enchere(request):
 
 def detail_enchere(request):
     return render(request,'pages/detail_enchere.html')
+
+# création d'enchere
+def pageCreerEnchere(request):
+    return render(request,'pages/creerEnchere.html')

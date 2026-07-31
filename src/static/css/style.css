@@ -43,6 +43,7 @@ nav{
 .fond .imgFond{
     width: 60%;
     height: 60%;
+    animation: strike-gavel 3s linear infinite;
 }
 .logo{
     font-size: 25px;
@@ -55,6 +56,42 @@ nav{
     cursor: pointer;
 
 }
+
+/* ANIMATION MARTEAU */
+/*
+@keyframes strike-gavel {
+  /* 0% : Le marteau est levé, prêt à frapper (position de repos définie plus haut)
+  0% {
+    transform: translateX(-50%) rotate(30deg);
+  }
+
+  /* 20% - 30% : Le marteau descend très rapidement pour frapper le bloc 
+  25% {
+    transform: translateX(-50%) rotate(0deg) translateY(60px); /* Il est vertical et a descendu 
+  }
+
+  /* 35% : Juste après l'impact, il a un très léger rebond vers le haut et l'arrière
+  35% {
+    transform: translateX(-50%) rotate(-5deg) translateY(55px);
+  }
+
+  /* 45% : Il redescend brièvement sur le bloc 
+  45% {
+    transform: translateX(-50%) rotate(0deg) translateY(60px);
+  }
+
+  /* 60% : Il commence à remonter lentement 
+  60% {
+    transform: translateX(-50%) rotate(15deg) translateY(30px);
+  }
+
+  /* 100% : Retour à la position de départ pour boucler
+  100% {
+    transform: translateX(-50%) rotate(30deg) translateY(0);
+  }
+}*/
+
+/* Fin animation */
 .nav_item ul{
     display: flex;
     align-items: center;
@@ -107,6 +144,48 @@ nav{
     font-family: 'MyFont';
     font-size: 70px;
     color: var(--black--);
+}
+.grand_titre::after{
+    content:'';
+    font-family: 'MyFont';
+    font-size: 70px;
+    color: var(--black--);
+    animation: title 7s linear infinite;
+}
+@keyframes title {
+    0%{
+        content: "Royale enchère";
+    }
+    10%{
+        content: "Roy";
+    }
+    20%{
+        content: "Royal";
+    }
+    30%{
+        content: "Royale ";
+    }
+    40%{
+        content: "Royale e";
+    }
+    50%{
+        content: "Royale en";
+    }
+    60%{
+        content: "Royale enc";
+    }
+    70%{
+        content: "Royale ench";
+    }
+    80%{
+        content: "Royale enchère";
+    }
+    90%{
+        content: "Royale enchère";
+    }
+    100%{
+        content: "Royale enchère";
+    }
 }
 .description{
     font-family: 'MyFont';
