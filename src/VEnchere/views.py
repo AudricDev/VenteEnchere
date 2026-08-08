@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.decorators import login_required
-
+from .models import *
 # Create your views here.
 #@login_required
 def index(request):
@@ -57,4 +57,9 @@ def detail_enchere(request):
 
 # création d'enchere
 def pageCreerEnchere(request):
-    return render(request,'pages/creerEnchere.html')
+    cat = Categorie.objects.all()
+    profil = ProfilUtilisateur.objects.all()
+    return render(request,'pages/creerEnchere.html', {
+        "categories":cat,
+        "profils":profil
+        })

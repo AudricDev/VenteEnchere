@@ -44,7 +44,6 @@ class Produit(models.Model):
     poids = models.DecimalField(max_digits=8,decimal_places=2)
     date_creation = models.DateTimeField()
     reference = models.CharField(max_length=50)
-
     categorie = models.OneToOneField(
         Categorie,
         on_delete=models.CASCADE
@@ -57,7 +56,15 @@ class Produit(models.Model):
 
     def __str__(self):
         return self.nom
-
+# photo du produit
+class produit_photo(models.Model):
+    name = models.CharField(max_length=50)
+    image = models.ImageField(upload_to='photoProduits/',blank=True)
+    
+    produit = models.ForeignKey(Produit, on_delete=models.CASCADE,related_name='photos')
+    def __str__(self):
+        return self.name
+    
 
 # modele enchère
 class Enchere(models.Model):

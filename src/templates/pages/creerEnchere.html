@@ -1,37 +1,95 @@
 {% extends "layouts/base.html" %}
 {% include "components/header.html" %}
 {% block content %}
-<div class="container">
+<div class="container_produit">
     <form action="" method="post">
         <div class="information_perso">
+            <h1>Information personnelle</h1>
             <div>
-                <label for="nom">Nom vendeur</label>
-                <input type="text" value="{{ request.user.email}}">
+                <label for="nom">Nom vendeur</label><br>
+                <input type="text" value="{{ request.user.first_name}}" disabled>
             </div>
             <div>
-                <label for="nom">Nom vendeur</label>
-                <input type="text" value="{{ request.user.email}}">
+                <label for="nom">Email</label><br>
+                <input type="text" value="{{ request.user.email}}" disabled>
             </div>
             <div>
-                <label for="nom">Nom vendeur</label>
-                <input type="text" value="{{ request.user.email}}">
+                <label for="nom">Télephone</label><br>
+                <input type="text" value="{{ request.user.profilutilisateur.phone_number}}" disabled>
+            </div>
+            <div>
+                <label for="nom">Status</label><br>
+                <input type="text" value="{{ request.user.profilutilisateur.role}}" disabled>
             </div>
         </div>
         <div class="information_produit">
-            <div>
-                <label for="nom">Nom </label>
-                <input type="text" value="{{ request.user.email}}">
+            <h1>Information du produit</h1>
+            <p>Quel est votre produit ?</p>
+            <div class="form_boite">
+                    <select class="categorie" name="" id="" selected>
+                        <option value="">Choisir Catégorie</option>
+                        {% for categorie in categories %}
+                        <option  value="{{categorie.nom}}">{{categorie.nom}}</option>
+                        {% endfor %}
+                    </select>
             </div>
-            <div>
-                <label for="nom">Nom vendeur</label>
-                <input type="text" value="{{ request.user.email}}">
-            </div>
-            <div>
-                <label for="nom">Nom vendeur</label>
-                <input type="text" value="{{ request.user.email}}">
+            <div class="automobile">
+                <div class="form_boite">
+                    <div>
+                        <label for="nom">Nom </label><br>
+                        <input type="text" placeholder="Exemple : Sprinter CDI 316 D">
+                    </div>
+                    <div>
+                        <label for="nom">Description</label><br>
+                        <input type="text" placeholder="Exemple : Voiture de transport,...">
+                    </div>
+                </div>
+                <div class="form_boite">
+                    <div>
+                        <label for="nom">Marque</label><br>
+                        <input type="text" placeholder="Exemple : Mercedes Benz">
+                    </div>
+                    <div>
+                        <label for="nom">Modèle</label><br>
+                        <input type="text" placeholder="Exemple : Belgium">
+                    </div>
+                </div>
+                <div class="form_boite">
+                    <div>
+                        <label for="nom">Poids</label><br>
+                        <input type="text" placeholder="Exemple : 5 tones">
+                    </div>
+                    <div>
+                        <label for="nom">Réference</label><br>
+                        <input type="text" placeholder="Exemple : 123/654/789">
+                    </div>
+                </div>
+                <div class="form_boite">
+                    <div>
+                        <label for="nom">Catégorie</label><br>
+                        <input type="text" class="categorie2" placeholder="Automobiles" disabled>
+                    </div>
+                    <div>
+                        <label for="nom">Photo</label><br>
+                        <input type="file">
+                    </div>
+                </div>
+
+                <div class="form-btn">
+                    <input type="submit" value="Valider">
+                </div>
             </div>
         </div>
     </form>
 </div>
+<script>
+    const categorie2 = document.querySelector(".categorie2") 
+    const categorie1 = document.querySelector(".categorie") 
+    
+    addEventListener("click", function(){
+        categorie2.value = categorie1.value
+        
+    })
+</script>
 {% endblock  %}
 {% include "components/footer.html" %}

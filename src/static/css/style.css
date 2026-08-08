@@ -56,6 +56,12 @@ nav{
     cursor: pointer;
 
 }
+.logo span:hover{
+    perspective: 20px;
+    /* transform: rotateX(180deg); */
+    transform: scaleY(-1);
+    transition: 3s;
+}
 
 /* ANIMATION MARTEAU */
 /*
@@ -1044,4 +1050,82 @@ RESPONSIVE
     transform: translateY(-5px);
     transition: .5s;
     background: var(--secondary--);
+}
+/* ajout prosuit pour création enchere */
+.container_produit{
+    padding: 20px;
+}
+.information_perso,.information_produit{
+    
+    margin: 5px;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 5px 15px var(--black--);
+}
+.information_perso div div,.information_produit .form_boite{
+    display: flex;
+    margin-top: 10px;
+    gap:5px ;
+    width: 100%;
+}
+.information_perso div div,.information_produit .form_boite div{
+    margin-top: 10px;
+    gap:5px ;
+    width: 100%;
+}
+.information_perso input,.information_produit input,.information_produit select{
+    width: 100%;
+    padding: .5rem 1rem;
+    font-size: 16px;
+    border: 2px solid var(--secondary--);
+    border-radius: 5px;
+    outline: none;
+}
+.container_produit form{
+    display: grid;
+    grid-template-columns:2fr 2fr;
+}
+
+.form-btn{
+    display: flex;
+    justify-content: end;
+}
+.form-btn input{
+    margin-top:10px ;
+    width: 25%;
+    color: var(--white--);
+    background: var(--secondary--);
+    font-weight: bold;
+    border: 2px solid var(--dore--);
+}
+.form-btn input:hover,.btn_item a button:hover,.btn_item span:hover{
+    box-shadow: 0 5px 10px var(--black--);
+    transform: translateY(-2px);
+    transition: .5s;
+    cursor: pointer;
+}
+
+.btn_item span{
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    font-weight: bolder;
+    color: var(--dore--);
+    background: var(--secondary--);
+    border-radius: 50%;
+    border: 2px solid var(--dore--);
+}
+.btn_item img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+.btn_item div{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    padding: 2px;
 }
