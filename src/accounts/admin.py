@@ -10,8 +10,14 @@ admin.site.register(ProfilUtilisateur,ProfilUtilisateurAdmin)
 # affichage du produit dans admin
 class ProduitAdmin(admin.ModelAdmin):
     class Meta :
-        list_display = ('nom','description','etat','marque','modele','couleur','poids','date_creation','reference')
+        list_display = ('nom','description','etat','marque','modele','poids','date_creation','reference')
 admin.site.register(Produit, ProduitAdmin)
+
+# affichage du produit dans admin
+class ProduitPhotoAdmin(admin.ModelAdmin):
+    class Meta :
+        list_display = ('name','image','produit')
+admin.site.register(Produit_photo, ProduitPhotoAdmin)
 
 # affichage du categorie dans admin 
 class CategorieAdmin(admin.ModelAdmin):

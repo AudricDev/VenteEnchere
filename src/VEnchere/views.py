@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import login,logout,authenticate
@@ -63,3 +63,47 @@ def pageCreerEnchere(request):
         "categories":cat,
         "profils":profil
         })
+
+@login_required
+def ajouter_produit(request):
+    error = []
+    if request.method == "POST":
+
+        nom = request.POST.get("nomProduit")
+        description = request.POST.get("descriptionProduit")
+        marque = request.POST.get("marque")
+        modele = request.POST.get("modele")
+        poids = request.POST.get("poids")
+        reference = request.POST.get("reference")
+        categorie_id = request.POST.get("categories")
+
+
+        if nom == '' or description == '':
+            errors = error.append("Nom et description obligatoire !")
+        else:
+            categorie = get_object_or_404(
+                Categorie,
+                id=categorie_id
+            )
+            produit = Produit.objects.create(
+                nom=nom,
+                description=description,
+                marque=marque,
+                modele=modele,
+                poids=poids,
+                reference=reference,
+                categorie=categorie,
+                utilisateur=request.user.profilutilisateur
+            )
+            return redirect("index")
+    categories = Categorie.objects.all()
+
+
+    return render(
+        request,
+        "pages/creerEnchere.html",
+        {
+            "categories": categories,
+            "errors": error
+        }
+    )

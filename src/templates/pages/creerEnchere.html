@@ -2,34 +2,40 @@
 {% include "components/header.html" %}
 {% block content %}
 <div class="container_produit">
-    <form action="" method="post">
+    <form action="{% url 'ajouter_produit' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
         <div class="information_perso">
             <h1>Information personnelle</h1>
             <div>
                 <label for="nom">Nom vendeur</label><br>
-                <input type="text" value="{{ request.user.first_name}}" disabled>
+                <input type="text" value="{{ request.user.first_name}}" name="vendeur" disabled>
             </div>
             <div>
                 <label for="nom">Email</label><br>
-                <input type="text" value="{{ request.user.email}}" disabled>
+                <input type="text" value="{{ request.user.email}}" name="email" disabled>
             </div>
             <div>
                 <label for="nom">Télephone</label><br>
-                <input type="text" value="{{ request.user.profilutilisateur.phone_number}}" disabled>
+                <input type="text" value="{{ request.user.profilutilisateur.phone_number}}" name="phone" disabled>
             </div>
             <div>
                 <label for="nom">Status</label><br>
-                <input type="text" value="{{ request.user.profilutilisateur.role}}" disabled>
+                <input type="text" value="{{ request.user.profilutilisateur.role}}" name="status" disabled>
             </div>
         </div>
         <div class="information_produit">
             <h1>Information du produit</h1>
             <p>Quel est votre produit ?</p>
+            {% for error in errors %}
+            <p 
+            style = "color: red; background: rgba(255, 0, 0, 0.274); padding:1rem .5rem; border-radius: 5px; width: auto;text-align: center;font-size: 20px;">{{ error }}</p>
+            {% endfor %}
+            
             <div class="form_boite">
-                    <select class="categorie" name="" id="" selected>
+                    <select class="categorie" name="categories" id="" selected>
                         <option value="">Choisir Catégorie</option>
                         {% for categorie in categories %}
-                        <option  value="{{categorie.nom}}">{{categorie.nom}}</option>
+                        <option  value="{{categorie.id}}">{{categorie.nom}}</option>
                         {% endfor %}
                     </select>
             </div>
@@ -37,41 +43,41 @@
                 <div class="form_boite">
                     <div>
                         <label for="nom">Nom </label><br>
-                        <input type="text" placeholder="Exemple : Sprinter CDI 316 D">
+                        <input type="text" placeholder="Exemple : Sprinter CDI 316 D" name="nomProduit">
                     </div>
                     <div>
                         <label for="nom">Description</label><br>
-                        <input type="text" placeholder="Exemple : Voiture de transport,...">
+                        <input type="text" placeholder="Exemple : Voiture de transport,..." name="descriptionProduit">
                     </div>
                 </div>
                 <div class="form_boite">
                     <div>
                         <label for="nom">Marque</label><br>
-                        <input type="text" placeholder="Exemple : Mercedes Benz">
+                        <input type="text" placeholder="Exemple : Mercedes Benz" name="marque">
                     </div>
                     <div>
                         <label for="nom">Modèle</label><br>
-                        <input type="text" placeholder="Exemple : Belgium">
+                        <input type="text" placeholder="Exemple : Belgium" name="modele">
                     </div>
                 </div>
                 <div class="form_boite">
                     <div>
                         <label for="nom">Poids</label><br>
-                        <input type="text" placeholder="Exemple : 5 tones">
+                        <input type="text" placeholder="Exemple : 5 tones" name="poids">
                     </div>
                     <div>
                         <label for="nom">Réference</label><br>
-                        <input type="text" placeholder="Exemple : 123/654/789">
+                        <input type="text" placeholder="Exemple : 123/654/789" name="reference">
                     </div>
                 </div>
                 <div class="form_boite">
                     <div>
-                        <label for="nom">Catégorie</label><br>
-                        <input type="text" class="categorie2" placeholder="Automobiles" disabled>
+                        <!-- <label for="nom">Catégorie</label><br>
+                        <input type="text" class="categorie2" placeholder="Automobiles" name="categorie" disabled>
                     </div>
-                    <div>
+                    <div> -->
                         <label for="nom">Photo</label><br>
-                        <input type="file">
+                        <input type="file" name="photoProduit">
                     </div>
                 </div>
 
@@ -87,6 +93,7 @@
     const categorie1 = document.querySelector(".categorie") 
     
     addEventListener("click", function(){
+        console.dir(categorie1);
         categorie2.value = categorie1.value
         
     })

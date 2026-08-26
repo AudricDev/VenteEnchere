@@ -41,12 +41,13 @@
             <div class="btn_item">
                 {% if request.user.is_authenticated %}
                     {% if request.user.profilutilisateur.avatar.url %}
-                    <div>
+                    <span> {{ request.user.first_name|first }} </span>
+                    <!-- <div>
                         <img src="{{request.user.profilutilisateur.avatar.url}}" alt="">
                     </div>
                     <div>
                         <img src="../../media/utilisateurs/aigle.webp" alt="">
-                    </div>
+                    </div> -->
                     {% else %}
                     <span> {{ request.user.first_name|first }} </span>
                 {% endif %}

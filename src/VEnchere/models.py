@@ -1,6 +1,9 @@
 from django.db import models
 from accounts.models import ProfilUtilisateur
+from django.utils import timezone
+
 import uuid
+
 # Create your models here.
 
 # modele catégorie
@@ -40,11 +43,10 @@ class Produit(models.Model):
     )
     marque = models.CharField(max_length=50)
     modele = models.CharField(max_length=50)
-    couleur = models.CharField(max_length=20)
-    poids = models.DecimalField(max_digits=8,decimal_places=2)
-    date_creation = models.DateTimeField()
+    poids = models.CharField(max_length=20)
+    date_creation = models.DateTimeField(default=timezone.now)
     reference = models.CharField(max_length=50)
-    categorie = models.OneToOneField(
+    categorie = models.ForeignKey(
         Categorie,
         on_delete=models.CASCADE
     )
@@ -57,7 +59,7 @@ class Produit(models.Model):
     def __str__(self):
         return self.nom
 # photo du produit
-class produit_photo(models.Model):
+class Produit_photo(models.Model):
     name = models.CharField(max_length=50)
     image = models.ImageField(upload_to='photoProduits/',blank=True)
     
@@ -84,8 +86,8 @@ class Enchere(models.Model):
     titre = models.CharField(max_length=200)
     description = models.TextField()
     prix_depart = models.DecimalField(max_digits=12, decimal_places=2)
-    prix_actuel = models.DecimalField(max_digits=12, decimal_places=2)
-    prix_reserve = models.DecimalField(max_digits=12, decimal_places=2)
+    prix_actuel = models.DecimalField(max_digits=12, decimal_places=2, blank=True, null=True)
+    prix_reserve = models.DecimalField(max_digits=12, decimal_places=2, blank=True, null= True)
     date_debut = models.DateTimeField()
     date_fin = models.DateTimeField()
     statut = models.CharField(
