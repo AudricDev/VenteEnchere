@@ -34,23 +34,20 @@
                         <a href="#contact" class="link">Contact</a>
                     </li>
                     <li class="nav_link">
+                        <a href="#Historique" class="link">Mes produits</a>
+                    </li>
+                    <li class="nav_link">
                         <a href="#Historique" class="link">Historique</a>
                     </li>
                 </ul>
             </div>
             <div class="btn_item">
                 {% if request.user.is_authenticated %}
-                    {% if request.user.profilutilisateur.avatar.url %}
-                    <span> {{ request.user.first_name|first }} </span>
-                    <!-- <div>
-                        <img src="{{request.user.profilutilisateur.avatar.url}}" alt="">
-                    </div>
-                    <div>
-                        <img src="../../media/utilisateurs/aigle.webp" alt="">
-                    </div> -->
+                    {% if request.user.first_name|first == "" %}
+                    <span><a href="{% url 'modifier_profil_page' %}" style="text-decoration: none;color: #e6bd06;"> {{ request.user.email|first }}</a></span>
                     {% else %}
-                    <span> {{ request.user.first_name|first }} </span>
-                {% endif %}
+                    <span> <a href="{% url 'modifier_profil_page' %}" style="text-decoration: none;color: #e6bd06;"> {{ request.user.first_name|first }}</a> </span>
+                    {% endif %}
                 <a href="{% url 'deconnexion' %}" class="btn_link">
                     <button>Deconnecter</button>
                 </a>

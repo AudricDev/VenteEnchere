@@ -64,11 +64,18 @@ def pageCreerEnchere(request):
         "profils":profil
         })
 
+# ajout produit
 @login_required
 def ajouter_produit(request):
     error = []
+    validations = []
     if request.method == "POST":
+        #information personnelle
+        nomVendeur = request.POST.get("vendeur")
+        emailVendeur = request.POST.get("email")
+        phoneVendeur = request.POST.get("phone")
 
+        #information produit
         nom = request.POST.get("nomProduit")
         description = request.POST.get("descriptionProduit")
         marque = request.POST.get("marque")
@@ -77,9 +84,10 @@ def ajouter_produit(request):
         reference = request.POST.get("reference")
         categorie_id = request.POST.get("categories")
 
-
-        if nom == '' or description == '':
-            errors = error.append("Nom et description obligatoire !")
+        if nomVendeur is None or phoneVendeur is None:
+            info = validations.append("Completez votre profil, c'est obligatoire !!!")
+        if nom == '' or description == '' or categorie_id == '':
+            errors = error.append("N'oublie pas de choisir le catégorie ,nom et description obligatoire ! ")
         else:
             categorie = get_object_or_404(
                 Categorie,
@@ -104,6 +112,62 @@ def ajouter_produit(request):
         "pages/creerEnchere.html",
         {
             "categories": categories,
+            "errors": error,
+            "infos": validations
+        }
+    )
+
+    # validation enchere
+    def validate_enchere(request):
+        enchere = Enchere.objects.all()
+        return render( request,
+        "pages/creerEnchere.html",
+        {
+            "categories": categories,
             "errors": error
         }
+)
+
+@login_required
+def modifier_profil_page(request):
+    return render(request,"pages/modifier_profil.html")
+
+@login_required
+def modifier_profil(request):
+
+    profil = request.user.profilutilisateur
+
+    if request.method == "POST":
+
+        # Informations User
+        request.user.username = request.POST.get("username")
+        request.user.first_name = request.POST.get("first_name")
+        request.user.last_name = request.POST.get("last_name")
+        request.user.email = request.POST.get("email")
+
+        request.user.save()
+
+
+        # Informations ProfilUtilisateur
+        profil.phone_number = request.POST.get("phone_number")
+
+
+        # Nouvelle photo
+        if request.FILES.get("avatar"):
+            profil.avatar = request.FILES.get("avatar")
+
+
+        profil.save()
+
+        return redirect("modifier_profil_page")
+
+
+    context = {
+        "profil": profil
+    }
+
+    return render(
+        request,
+        "modifier_profil.html",
+        context
     )

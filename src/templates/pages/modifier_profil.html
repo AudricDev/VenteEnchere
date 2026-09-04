@@ -1,0 +1,265 @@
+{% extends "layouts/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container_modifier_profil">
+
+    <div class="titre_modifier_profil">
+        <h1>Modifier mon profil</h1>
+        <p>Modifiez vos informations personnelles</p>
+    </div>
+    <form method="POST" enctype="multipart/form-data" action="{% url 'modifier_profil' %}">
+
+        {% csrf_token %}
+
+        <div class="modifier_profil_content">
+
+            <!-- ================= PHOTO ================= -->
+
+            <div class="modifier_photo">
+
+                <h2>Photo de profil</h2>
+
+                <div class="photo_profil">
+
+                    {% if request.user.profilutilisateur.avatar %}
+
+                        <img
+                            src="{{ request.user.profilutilisateur.avatar.url }}"
+                            id="preview_avatar"
+                            alt="Photo de profil"
+                        >
+
+                    {% else %}
+
+                        <div
+                            class="avatar_default"
+                            id="avatar_default"
+                        >
+                            {{ request.user.username|first|upper }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <label
+                    for="avatar"
+                    class="btn_photo"
+                >
+                    <i class="fa-solid fa-camera"></i>
+                    Modifier la photo
+                </label>
+
+                <input
+                    type="file"
+                    name="avatar"
+                    id="avatar"
+                    accept="image/*"
+                    hidden
+                >
+
+                <p>
+                    JPG, JPEG ou PNG
+                </p>
+
+            </div>
+
+
+            <!-- ================= INFORMATIONS ================= -->
+
+            <div class="informations_profil">
+
+                <h2>Informations personnelles</h2>
+
+
+                <!-- USERNAME -->
+
+                <div class="champ">
+
+                    <label for="username">
+                        Nom d'utilisateur
+                    </label>
+
+                    <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        value="{{ request.user.username }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PRENOM -->
+
+                <div class="champ">
+
+                    <label for="first_name">
+                        Prénom
+                    </label>
+
+                    <input
+                        type="text"
+                        name="first_name"
+                        id="first_name"
+                        value="{{ request.user.first_name }}"
+                    >
+
+                </div>
+
+
+                <!-- NOM -->
+
+                <div class="champ">
+
+                    <label for="last_name">
+                        Nom
+                    </label>
+
+                    <input
+                        type="text"
+                        name="last_name"
+                        id="last_name"
+                        value="{{ request.user.last_name }}"
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="champ">
+
+                    <label for="email">
+                        Adresse email
+                    </label>
+
+                    <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        value="{{ request.user.email }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- TELEPHONE -->
+
+                <div class="champ">
+
+                    <label for="phone_number">
+                        Numéro de téléphone
+                    </label>
+
+                    <input
+                        type="text"
+                        name="phone_number"
+                        id="phone_number"
+                        value="{{ request.user.profilutilisateur.phone_number }}"
+                    >
+
+                </div>
+
+
+                <!-- ROLE -->
+
+                <div class="champ">
+
+                    <label for="role">
+                        Rôle
+                    </label>
+
+                    <input
+                        type="text"
+                        value="{{ request.user.profilutilisateur.get_role_display }}"
+                        disabled
+                    >
+
+                </div>
+
+
+                <!-- BOUTONS -->
+
+                <div class="boutons_profil">
+
+                    <a href="{% url 'index' %}">
+                        <button
+                            type="button"
+                            class="btn_annuler"
+                        >
+                            Annuler
+                        </button>
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        class="btn_enregistrer"
+                    >
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Enregistrer
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+const avatarInput = document.getElementById("avatar");
+const preview = document.getElementById("preview_avatar");
+const avatarDefault = document.getElementById("avatar_default");
+
+avatarInput.addEventListener("change", function () {
+
+    const fichier = this.files[0];
+
+    if (fichier) {
+
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+
+            if (preview) {
+
+                preview.src = e.target.result;
+
+            } else {
+
+                const image = document.createElement("img");
+
+                image.src = e.target.result;
+                image.id = "preview_avatar";
+                image.alt = "Photo de profil";
+
+                avatarDefault.replaceWith(image);
+
+            }
+
+        };
+
+        reader.readAsDataURL(fichier);
+
+    }
+
+});
+
+</script>
+
+{% endblock %}

@@ -6,9 +6,13 @@
         {% csrf_token %}
         <div class="information_perso">
             <h1>Information personnelle</h1>
+            {% for info in infos %}
+            <p 
+            style = "color: red; background: rgba(255, 0, 0, 0.274); padding:1rem .5rem; border-radius: 5px; width: auto;text-align: center;font-size: 20px;">{{ info }}</p>
+            {% endfor %}
             <div>
                 <label for="nom">Nom vendeur</label><br>
-                <input type="text" value="{{ request.user.first_name}}" name="vendeur" disabled>
+                <input type="text" value="{{ request.user.first_name}}" name="vendeur" >
             </div>
             <div>
                 <label for="nom">Email</label><br>
@@ -16,7 +20,7 @@
             </div>
             <div>
                 <label for="nom">Télephone</label><br>
-                <input type="text" value="{{ request.user.profilutilisateur.phone_number}}" name="phone" disabled>
+                <input type="text" value="{{ request.user.profilutilisateur.phone_number}}" name="phone">
             </div>
             <div>
                 <label for="nom">Status</label><br>
@@ -30,7 +34,6 @@
             <p 
             style = "color: red; background: rgba(255, 0, 0, 0.274); padding:1rem .5rem; border-radius: 5px; width: auto;text-align: center;font-size: 20px;">{{ error }}</p>
             {% endfor %}
-            
             <div class="form_boite">
                     <select class="categorie" name="categories" id="" selected>
                         <option value="">Choisir Catégorie</option>
