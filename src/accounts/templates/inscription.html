@@ -23,8 +23,11 @@
             <div class="container_form">
                 <div class="titre_form">FORMULAIRE</div>
                 <div class="formulaire">
-                    <form action="{% url "inscription" %}" method="POST">
+                    <form action="{% url 'inscription' %}" method="POST">
                         {% csrf_token %}
+                        {% if erreur %}
+                            <p class="erreur">{{ erreur }}</p>
+                        {% endif %}
                         <div class="form_control">
                             <input class="email" type="email" placeholder="Votre@gmail.com" name="email">
                         </div>
@@ -38,7 +41,7 @@
                             <input class="btn_connexion" type="submit" value="Enregistrer">
                         </div>
                         <div class="form_controls">
-                            <a href="{% url "connexion" %}">J'ai déjà un compte</a>
+                            <a href="{% url 'connexion' %}">J'ai déjà un compte</a>
                         </div>
                     </form>
                 </div>

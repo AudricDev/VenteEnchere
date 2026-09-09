@@ -23,29 +23,48 @@ class Categorie(models.Model):
 
 # modele produit
 class Produit(models.Model):
-    ROLE_CHOICE = (
-        ('Disponible','Disponible'),
-        ('En enchere','En enchère'),
-        ('Vendu','Vendu'),
-        ('Retire','Retiré')
+
+    ETAT_CHOICE = (
+        ('Disponible', 'Disponible'),
+        ('En enchere', 'En enchère'),
+        ('Vendu', 'Vendu'),
+        ('Retire', 'Retiré')
     )
+
+    STATUT_VALIDATION = (
+        ('attente', 'En attente'),
+        ('valide', 'Validé'),
+        ('refuse', 'Refusé'),
+    )
+
     id = models.UUIDField(
         primary_key=True,
         default=uuid.uuid4,
         editable=False
     )
+
     nom = models.CharField(max_length=100)
+
     description = models.TextField()
+
     etat = models.CharField(
         max_length=20,
-        choices=ROLE_CHOICE,
+        choices=ETAT_CHOICE,
         default='Disponible'
     )
+
+    statut_validation = models.CharField(
+        max_length=20,
+        choices=STATUT_VALIDATION,
+        default='attente'
+    )
+
     marque = models.CharField(max_length=50)
     modele = models.CharField(max_length=50)
     poids = models.CharField(max_length=20)
     date_creation = models.DateTimeField(default=timezone.now)
     reference = models.CharField(max_length=50)
+
     categorie = models.ForeignKey(
         Categorie,
         on_delete=models.CASCADE
@@ -58,6 +77,7 @@ class Produit(models.Model):
 
     def __str__(self):
         return self.nom
+
 # photo du produit
 class Produit_photo(models.Model):
     name = models.CharField(max_length=50)
@@ -92,7 +112,7 @@ class Enchere(models.Model):
     date_fin = models.DateTimeField()
     statut = models.CharField(
         max_length=20,
-        choices=STATUT,
+        choices=STATUT  ,
         default='ouverte'
     )
 
@@ -112,23 +132,27 @@ class Enchere(models.Model):
 
 #model offre
 class Offre(models.Model):
-
     id = models.UUIDField(
         primary_key=True,
         default=uuid.uuid4,
         editable=False
     )
 
-    montant = models.DecimalField(max_digits=12, decimal_places=2)
+    montant = models.DecimalField(
+        max_digits=12,
+        decimal_places=2
+    )
 
-    horodatage = models.DateTimeField(auto_now_add=True)
+    horodatage = models.DateTimeField(
+        auto_now_add=True
+    )
 
     utilisateur = models.ForeignKey(
         ProfilUtilisateur,
         on_delete=models.CASCADE
     )
 
-    enchere = models.OneToOneField(
+    enchere = models.ForeignKey(
         Enchere,
         on_delete=models.CASCADE,
         related_name='offres'
@@ -136,6 +160,7 @@ class Offre(models.Model):
 
     class Meta:
         ordering = ['-montant']
+
 
 # model paiement
 class Paiement(models.Model):
@@ -204,3 +229,41 @@ class Transaction(models.Model):
         'Paiement',
         on_delete=models.CASCADE
     )
+
+# Participation à l'enchere 
+class Participation(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
+    )
+
+    acheteur = models.ForeignKey(
+        ProfilUtilisateur,
+        on_delete=models.CASCADE,
+        related_name='participations'
+    )
+
+    enchere = models.ForeignKey(
+        Enchere,
+        on_delete=models.CASCADE,
+        related_name='participants'
+    )
+
+    date_inscription = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['acheteur', 'enchere'],
+                name='unique_participation'
+            )
+        ]
+        ordering = ['-date_inscription']
+
+    def __str__(self):
+        return f"{self.acheteur} - {self.enchere}"
+
+

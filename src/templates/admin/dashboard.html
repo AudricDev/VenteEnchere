@@ -1,0 +1,722 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="admin_layout">
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="admin_sidebar">
+
+        <div class="admin_profil">
+
+            <div class="admin_avatar">
+
+                {% if request.user.profilutilisateur.avatar %}
+
+                    <img
+                        src="{{ request.user.profilutilisateur.avatar.url }}"
+                        alt="Administrateur"
+                    >
+
+                {% else %}
+
+                    {{ request.user.first_name|first|upper }}
+
+                {% endif %}
+
+            </div>
+
+            <div>
+
+                <strong>
+                    {{ request.user.first_name }}
+                </strong>
+
+                <span>
+                    Administrateur
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- MENU -->
+
+        <nav class="admin_menu">
+
+            <a href="{% url 'admin_dashboard' %}" class="active">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="#">
+                <i class="fa-solid fa-box"></i>
+                <span>Produits</span>
+            </a>
+
+            <a href="#">
+                <i class="fa-solid fa-gavel"></i>
+                <span>Enchères</span>
+            </a>
+
+            <a href="#">
+                <i class="fa-solid fa-users"></i>
+                <span>Utilisateurs</span>
+            </a>
+
+            <a href="#">
+                <i class="fa-solid fa-credit-card"></i>
+                <span>Paiements</span>
+            </a>
+
+            <a href="#">
+                <i class="fa-solid fa-receipt"></i>
+                <span>Transactions</span>
+            </a>
+
+            <div class="menu_separation"></div>
+
+            <a href="#">
+                <i class="fa-solid fa-gear"></i>
+                <span>Paramètres</span>
+            </a>
+
+            <a href="{% url 'deconnexion' %}" class="menu_logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Déconnexion</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- =========================
+         CONTENU PRINCIPAL
+    ========================== -->
+
+    <main class="admin_main">
+
+        <!-- HEADER -->
+
+        <header class="admin_topbar">
+
+            <div>
+
+                <span class="admin_breadcrumb">
+                    Administration
+                </span>
+
+                <h1>
+                    Tableau de bord
+                </h1>
+
+            </div>
+
+
+            <div class="admin_top_actions">
+
+                <button class="admin_notification">
+
+                    <i class="fa-regular fa-bell"></i>
+
+                    <span>3</span>
+
+                </button>
+
+
+                <a
+                    href="{% url 'index' %}"
+                    class="voir_site"
+                >
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    Voir le site
+                </a>
+
+            </div>
+
+        </header>
+
+
+        <!-- =========================
+             STATISTIQUES
+        ========================== -->
+
+        <section class="admin_stats">
+
+            <div class="stat_card">
+
+                <div class="stat_icon">
+                    <i class="fa-solid fa-box"></i>
+                </div>
+
+                <div class="stat_info">
+
+                    <span>Total produits</span>
+
+                    <strong>
+                        {{ total_produits }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat_card">
+
+                <div class="stat_icon">
+                    <i class="fa-solid fa-gavel"></i>
+                </div>
+
+                <div class="stat_info">
+
+                    <span>Enchères ouvertes</span>
+
+                    <strong>
+                        {{ encheres_ouvertes }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat_card">
+
+                <div class="stat_icon">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+
+                <div class="stat_info">
+
+                    <span>Utilisateurs</span>
+
+                    <strong>
+                        {{ total_utilisateurs }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat_card">
+
+                <div class="stat_icon">
+                    <i class="fa-solid fa-hourglass-half"></i>
+                </div>
+
+                <div class="stat_info">
+
+                    <span>À valider</span>
+
+                    <strong>
+                        {{ produits_attente }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             PRODUITS À VALIDER
+        ========================== -->
+
+        <section class="admin_section">
+
+            <div class="section_header_admin">
+
+                <div>
+
+                    <span>MODÉRATION</span>
+
+                    <h2>
+                        Produits en attente
+                    </h2>
+
+                </div>
+
+                <a href="#">
+                    Voir tous
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+            </div>
+
+
+            <div class="admin_table_container">
+
+                <table class="admin_table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Produit</th>
+                            <th>Vendeur</th>
+                            <th>Catégorie</th>
+                            <th>Date</th>
+                            <th>Statut</th>
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for produit in produits_attente_liste %}
+
+                        <tr>
+
+                            <td>
+
+                                <div class="produit_admin">
+
+                                    {% with produit.photos.first as photo %}
+
+                                        {% if photo %}
+
+                                            <img
+                                                src="{{ photo.image.url }}"
+                                                alt="{{ produit.nom }}"
+                                            >
+
+                                        {% else %}
+
+                                            <div class="image_admin_vide">
+                                                <i class="fa-solid fa-image"></i>
+                                            </div>
+
+                                        {% endif %}
+
+                                    {% endwith %}
+
+
+                                    <div>
+
+                                        <strong>
+                                            {{ produit.nom }}
+                                        </strong>
+
+                                        <span>
+                                            {{ produit.reference }}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            <td>
+                                {{ produit.utilisateur.user.username }}
+                            </td>
+
+
+                            <td>
+                                {{ produit.categorie.nom }}
+                            </td>
+
+
+                            <td>
+                                {{ produit.date_creation|date:"d/m/Y" }}
+                            </td>
+
+
+                            <td>
+
+                                <span class="badge_attente">
+                                    En attente
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <div class="actions_table">
+
+                                    <a
+                                        href="#"
+                                        class="btn_detail"
+                                        title="Voir"
+                                    >
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>
+
+                                    <a
+                                        href="#"
+                                        class="btn_valider"
+                                        title="Valider"
+                                    >
+                                        <i class="fa-solid fa-check"></i>
+                                    </a>
+
+                                    <a
+                                        href="#"
+                                        class="btn_refuser"
+                                        title="Refuser"
+                                    >
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="6">
+
+                                <div class="table_empty">
+
+                                    <i class="fa-solid fa-circle-check"></i>
+
+                                    <p>
+                                        Aucun produit en attente.
+                                    </p>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             ENCHÈRES
+        ========================== -->
+
+        <section class="admin_section">
+
+            <div class="section_header_admin">
+
+                <div>
+
+                    <span>ACTIVITÉ</span>
+
+                    <h2>
+                        Enchères en cours
+                    </h2>
+
+                </div>
+
+                <a href="#">
+                    Voir toutes
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+            </div>
+
+
+            <div class="admin_table_container">
+
+                <table class="admin_table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Enchère</th>
+                            <th>Vendeur</th>
+                            <th>Prix actuel</th>
+                            <th>Début</th>
+                            <th>Fin</th>
+                            <th>Statut</th>
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for enchere in encheres %}
+
+                        <tr>
+
+                            <td>
+
+                                <strong>
+                                    {{ enchere.titre }}
+                                </strong>
+
+                            </td>
+
+
+                            <td>
+                                {{ enchere.vendeur.user.username }}
+                            </td>
+
+
+                            <td>
+
+                                <strong class="prix_admin">
+
+                                    {% if enchere.prix_actuel %}
+
+                                        {{ enchere.prix_actuel }} Ar
+
+                                    {% else %}
+
+                                        {{ enchere.prix_depart }} Ar
+
+                                    {% endif %}
+
+                                </strong>
+
+                            </td>
+
+
+                            <td>
+                                {{ enchere.date_debut|date:"d/m/Y H:i" }}
+                            </td>
+
+
+                            <td>
+                                {{ enchere.date_fin|date:"d/m/Y H:i" }}
+                            </td>
+
+
+                            <td>
+
+                                <span class="badge_ouverte">
+                                    Ouverte
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <a
+                                    href="#"
+                                    class="btn_detail"
+                                >
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="7">
+
+                                <div class="table_empty">
+
+                                    <i class="fa-solid fa-gavel"></i>
+
+                                    <p>
+                                        Aucune enchère en cours.
+                                    </p>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             BAS DU DASHBOARD
+        ========================== -->
+
+        <div class="admin_bottom_grid">
+
+
+            <!-- UTILISATEURS -->
+
+            <section class="admin_small_section">
+
+                <div class="section_header_admin">
+
+                    <div>
+
+                        <span>COMMUNAUTÉ</span>
+
+                        <h2>
+                            Utilisateurs récents
+                        </h2>
+
+                    </div>
+
+                    <a href="#">
+                        Voir tous
+                    </a>
+
+                </div>
+
+
+                <div class="liste_utilisateurs">
+
+                    {% for user in utilisateurs_recents %}
+
+                    <div class="utilisateur_item">
+
+                        <div class="mini_avatar">
+
+                            {% if user.profilutilisateur.avatar %}
+
+                                <img
+                                    src="{{ user.profilutilisateur.avatar.url }}"
+                                    alt=""
+                                >
+
+                            {% else %}
+
+                                {{ user.first_name|first|upper }}
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="utilisateur_info">
+
+                            <strong>
+                                {{ user.username }}
+                            </strong>
+
+                            <span>
+                                {{ user.email }}
+                            </span>
+
+                        </div>
+
+
+                        <span class="role_user">
+
+                            {{ user.profilutilisateur.get_role_display }}
+
+                        </span>
+
+                    </div>
+
+                    {% empty %}
+
+                    <p class="aucune_donnee">
+                        Aucun utilisateur récent.
+                    </p>
+
+                    {% endfor %}
+
+                </div>
+
+            </section>
+
+
+            <!-- PAIEMENTS -->
+
+            <section class="admin_small_section">
+
+                <div class="section_header_admin">
+
+                    <div>
+
+                        <span>FINANCES</span>
+
+                        <h2>
+                            Derniers paiements
+                        </h2>
+
+                    </div>
+
+                    <a href="#">
+                        Voir tous
+                    </a>
+
+                </div>
+
+
+                <div class="liste_paiements">
+
+                    {% for paiement in paiements_recents %}
+
+                    <div class="paiement_item">
+
+                        <div class="paiement_icon">
+                            <i class="fa-solid fa-wallet"></i>
+                        </div>
+
+
+                        <div class="paiement_info">
+
+                            <strong>
+                                {{ paiement.montant_total }} Ar
+                            </strong>
+
+                            <span>
+                                {{ paiement.methode }}
+                            </span>
+
+                        </div>
+
+
+                        <span class="badge_paiement">
+
+                            {{ paiement.get_statut_display }}
+
+                        </span>
+
+                    </div>
+
+                    {% empty %}
+
+                    <p class="aucune_donnee">
+                        Aucun paiement récent.
+                    </p>
+
+                    {% endfor %}
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+{% endblock %}

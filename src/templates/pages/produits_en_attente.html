@@ -1,0 +1,181 @@
+{% extends "layouts/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container_produits_attente">
+    <div class="titre_produits_attente">
+        <h1>Mes produits en attente</h1>
+
+        <p>
+            Les produits ci-dessous sont en attente de validation
+            par l'administrateur.
+        </p>
+    </div>
+{% if produits %}
+    <div class="liste_produits_attente">
+        {% for produit in produits %}
+            <div class="carte_produit_attente">
+                <!-- PHOTO -->
+                <div class="photo_produit_attente">
+
+                    {% with produit.photos.first as photo %}
+
+                        {% if photo %}
+
+                            <img
+                                src="{{ photo.image.url }}"
+                                alt="{{ produit.nom }}"
+                            >
+
+                        {% else %}
+
+                            <div class="photo_aucune">
+                                <i class="fa-solid fa-image"></i>
+                            </div>
+
+                        {% endif %}
+
+                    {% endwith %}
+
+                </div>
+
+
+                <!-- INFORMATIONS -->
+                <div class="info_produit_attente">
+
+                    <div class="nom_produit">
+
+                        <h2>
+                            {{ produit.nom }}
+                        </h2>
+
+                        <span class="badge_attente">
+                            <i class="fa-solid fa-clock"></i>
+                            En attente
+                        </span>
+
+                    </div>
+
+
+                    <p class="description_produit">
+                        {{ produit.description|truncatewords:20 }}
+                    </p>
+
+
+                    <div class="details_produit">
+
+                        <div>
+                            <i class="fa-solid fa-tag"></i>
+
+                            <strong>Catégorie :</strong>
+
+                            {{ produit.categorie.nom }}
+                        </div>
+
+
+                        <div>
+                            <i class="fa-solid fa-barcode"></i>
+
+                            <strong>Référence :</strong>
+
+                            {{ produit.reference }}
+                        </div>
+
+
+                        <div>
+                            <i class="fa-solid fa-building"></i>
+
+                            <strong>Marque :</strong>
+
+                            {{ produit.marque }}
+                        </div>
+
+
+                        <div>
+                            <i class="fa-solid fa-cube"></i>
+
+                            <strong>Modèle :</strong>
+
+                            {{ produit.modele }}
+                        </div>
+
+
+                        <div>
+                            <i class="fa-solid fa-weight-hanging"></i>
+
+                            <strong>Poids :</strong>
+
+                            {{ produit.poids }}
+                        </div>
+
+
+                        <div>
+                            <i class="fa-solid fa-calendar"></i>
+
+                            <strong>Date :</strong>
+
+                            {{ produit.date_creation|date:"d/m/Y H:i" }}
+                        </div>
+
+                    </div>
+
+
+                    <!-- ACTIONS -->
+                    <div class="actions_produit">
+
+                        <a
+                            href="#"
+                            class="btn_details"
+                        >
+                            <i class="fa-solid fa-eye"></i>
+                            Voir détails
+                        </a>
+
+
+                        <a
+                            href="#"
+                            class="btn_modifier"
+                        >
+                            <i class="fa-solid fa-pen"></i>
+                            Modifier
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+{% else %}
+
+    <div class="aucun_produit">
+
+        <i class="fa-solid fa-box-open"></i>
+
+        <h2>
+            Aucun produit en attente
+        </h2>
+
+        <p>
+            Vous n'avez actuellement aucun produit
+            en attente de validation.
+        </p>
+
+        <a href="#">
+            Ajouter un produit
+        </a>
+
+    </div>
+
+{% endif %}
+```
+
+</div>
+
+{% endblock %}

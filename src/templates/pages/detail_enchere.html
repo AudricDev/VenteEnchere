@@ -4,13 +4,13 @@
         <div class="container_detail">
             <div class="container_image">
                 <div class="g_image">
-                    <img src="assets/images/rolex1.jpg" alt="">
+                    <img src="{{details.photos.first.image.url}}" alt="">
                 </div>
                 <div class="p_image">
-                    <img src="assets/images/rolex1.jpg" alt="">
-                    <img src="assets/images/rolex2.jpg" alt="">
-                    <img src="assets/images/rolex3.jpg" alt="">
-                    <img src="assets/images/rolex2.jpg" alt="">
+                    <img src="{{details.photos.first.image.url}}" alt="">
+                    <img src="{{details.photos.first.image.url}}" alt="">
+                    <img src="{{details.photos.first.image.url}}" alt="">
+                    <img src="{{details.photos.first.image.url}}" alt="">
                 </div>
             </div>
             <div class="container_description">
@@ -23,11 +23,11 @@
                     Antananarivo - Madagascar
                 </div>
                 <div class="titre_enchere">
-                    Montre Rolex Submariner 2025
+                    {{details.nom}}
                 </div>
 
                 <div class="prix_enchere">
-                    4 500 000 Ar
+                    {{details.produit.enchere.prix_actuel}} Ariary
                 </div>
 
                 <div class="info_enchere">
@@ -41,10 +41,7 @@
                     </div>
                 </div>
                 <div class="detail_encheres">
-                    Cette montre Rolex Submariner est vendue aux enchères avec certificat
-                    d'authenticité. Elle est en excellent état, accompagnée de sa boîte
-                    d'origine et de tous ses accessoires. Les enchères restent ouvertes
-                    jusqu'à la fin du compte à rebours.
+                    {{details.description}}
                 </div>
             </div>
         </div>

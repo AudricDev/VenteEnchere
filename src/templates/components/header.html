@@ -1,65 +1,114 @@
 {% load static %}
-<header>
-    <nav>
-        <div class="navigation">
-            
-            <div class="logo">
-                <!-- <marquee behavior="" direction="left"> -->
-                <div class="conte" style="display:flex;">
-                    <span> Royal <br>enchère </span>
-                    <div class="imgLogo">
-                        <img 
-                        src="{% static 'images/marteau-enchère3mdf.png' %}" 
-                        alt=""
-                        style="width: 50px;height:50px;">
-                    </div>
-                </div>
-            <!-- </marquee> -->
+<header class="header_enchere">
+    <nav class="navbar">
+        <!-- LOGO -->
+        <a href="{% url 'index' %}" class="logo_enchere">
+            <div class="logo_texte">
+                <span>Royal</span>
+                <strong>enchère</strong>
             </div>
-            <div class="nav_item">
-                <ul>
-                    <li class="nav_link">
-                        <a href="{% url 'index' %}#titre" class="link">Accueil</a>
-                    </li>
-                    <li class="nav_link">
-                        <a href="#apropos" class="link">A propos</a>
-                    </li>
-                    <li class="nav_link">
-                        <a href="#nosEnchere" class="link">Nos enchères</a>
-                    </li>
-                    <li class="nav_link">
-                        <a href="#avantages" class="link">Avantages</a>
-                    </li>
-                    <li class="nav_link">
-                        <a href="#contact" class="link">Contact</a>
-                    </li>
-                    <li class="nav_link">
-                        <a href="#Historique" class="link">Mes produits</a>
-                    </li>
-                    <li class="nav_link">
-                        <a href="#Historique" class="link">Historique</a>
-                    </li>
-                </ul>
+
+            <div class="logo_image">
+                <img
+                    src="{% static 'images/marteau-enchère3mdf.png' %}"
+                    alt="Royal Enchère"
+                >
             </div>
-            <div class="btn_item">
+        </a>
+        <!-- NAVIGATION -->
+        <div class="nav_menu">
+            <ul>
+                <li>
+                    <a href="{% url 'index' %}#titre">
+                        Accueil
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'index' %}#apropos">
+                        À propos
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'index' %}#nosEnchere">
+                        Nos enchères
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'index' %}#avantages">
+                        Avantages
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'index' %}#contact">
+                        Contact
+                    </a>
+                </li>
                 {% if request.user.is_authenticated %}
-                    {% if request.user.first_name|first == "" %}
-                    <span><a href="{% url 'modifier_profil_page' %}" style="text-decoration: none;color: #e6bd06;"> {{ request.user.email|first }}</a></span>
-                    {% else %}
-                    <span> <a href="{% url 'modifier_profil_page' %}" style="text-decoration: none;color: #e6bd06;"> {{ request.user.first_name|first }}</a> </span>
-                    {% endif %}
-                <a href="{% url 'deconnexion' %}" class="btn_link">
-                    <button>Deconnecter</button>
-                </a>
-                {% else %}
-                <a href="{% url 'connexion' %}" class="btn_link">
-                    <button>Se connecter</button>
-                </a>
-                <a href="{% url 'inscription' %}" class="btn_link">
-                    <button>Créer un compte</button>
-                </a>
+                    <li>
+                        <a href="{% url 'produits_en_attente' %}">
+                            Mes produits
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'index' %}#Historique">
+                            Historique
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'admin_dashboard' %}">
+                            Admin
+                        </a>
+                    </li>
                 {% endif %}
-            </div>
+            </ul>
+        </div>
+        <!-- ACTIONS UTILISATEUR -->
+        <div class="nav_actions">
+            {% if request.user.is_authenticated %}
+                <!-- PROFIL -->
+                <a
+                    href="{% url 'modifier_profil_page' %}"
+                    class="profil_nav"
+                >
+                    {% if request.user.profilutilisateur.avatar %}
+                        <img
+                            src="{{ request.user.profilutilisateur.avatar.url }}"
+                            alt="Profil"
+                        >
+                    {% else %}
+                        <span class="profil_initial">
+                            {% if request.user.first_name|first %}
+                                {{ request.user.first_name|first|upper }}
+                            {% else %}
+                                {{ request.user.email|first|upper }}
+                            {% endif %}
+                        </span>
+                    {% endif %}
+                </a>
+                <!-- DECONNEXION -->
+                <a
+                    href="{% url 'deconnexion' %}"
+                    class="btn_nav btn_deconnexion"
+                >
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Déconnexion</span>
+                </a>
+            {% else %}
+                <!-- CONNEXION -->
+                <a
+                    href="{% url 'connexion' %}"
+                    class="btn_nav btn_connexion"
+                >
+                    Se connecter
+                </a>
+                <!-- INSCRIPTION -->
+                <a
+                    href="{% url 'inscription' %}"
+                    class="btn_nav btn_inscription"
+                >
+                    Créer un compte
+                </a>
+            {% endif %}
         </div>
     </nav>
 </header>
