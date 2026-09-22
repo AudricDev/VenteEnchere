@@ -155,12 +155,11 @@ class Offre(models.Model):
     enchere = models.ForeignKey(
         Enchere,
         on_delete=models.CASCADE,
-        related_name='offres'
+        related_name="offres"
     )
 
     class Meta:
-        ordering = ['-montant']
-
+        ordering = ["-montant"]
 
 # model paiement
 class Paiement(models.Model):

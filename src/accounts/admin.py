@@ -48,3 +48,9 @@ class TransactionAdmin(admin.ModelAdmin):
     class Meta:
         list_display = ('enchere','acheteur','vendeur','paiement','date_cloture','est_livre')
 admin.site.register(Transaction, TransactionAdmin)
+
+#affichage du participation dans admin
+class ParticipationAdmin(admin.ModelAdmin):
+    class Meta:
+        list_display = ('acheteur','enchere','date_inscription')
+admin.site.register(Participation, ParticipationAdmin)

@@ -1,6 +1,8 @@
 {% load static %}
+
 <header class="header_enchere">
     <nav class="navbar">
+
         <!-- LOGO -->
         <a href="{% url 'index' %}" class="logo_enchere">
             <div class="logo_texte">
@@ -15,56 +17,85 @@
                 >
             </div>
         </a>
+
+
         <!-- NAVIGATION -->
-        <div class="nav_menu">
+        <div class="nav_menu" id="navMenu">
             <ul>
                 <li>
                     <a href="{% url 'index' %}#titre">
                         Accueil
                     </a>
                 </li>
+
                 <li>
                     <a href="{% url 'index' %}#apropos">
                         À propos
                     </a>
                 </li>
+
                 <li>
                     <a href="{% url 'index' %}#nosEnchere">
                         Nos enchères
                     </a>
                 </li>
+
                 <li>
                     <a href="{% url 'index' %}#avantages">
                         Avantages
                     </a>
                 </li>
+
                 <li>
                     <a href="{% url 'index' %}#contact">
                         Contact
                     </a>
                 </li>
+
                 {% if request.user.is_authenticated %}
+
                     <li>
                         <a href="{% url 'produits_en_attente' %}">
                             Mes produits
                         </a>
                     </li>
+
                     <li>
                         <a href="{% url 'index' %}#Historique">
                             Historique
                         </a>
                     </li>
-                    <li>
-                        <a href="{% url 'admin_dashboard' %}">
-                            Admin
-                        </a>
-                    </li>
+
+                    {% if request.user.profilutilisateur.role == "Admin" %}
+                        <li>
+                            <a href="{% url 'admin_dashboard' %}">
+                                Admin
+                            </a>
+                        </li>
+                    {% endif %}
+
                 {% endif %}
             </ul>
         </div>
+
+
+        <!-- BOUTON BURGER -->
+        <button
+            class="menu_burger"
+            id="menuBurger"
+            type="button"
+            aria-label="Ouvrir le menu"
+            aria-expanded="false"
+        >
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+
         <!-- ACTIONS UTILISATEUR -->
         <div class="nav_actions">
+
             {% if request.user.is_authenticated %}
+
                 <!-- PROFIL -->
                 <a
                     href="{% url 'modifier_profil_page' %}"
@@ -85,6 +116,7 @@
                         </span>
                     {% endif %}
                 </a>
+
                 <!-- DECONNEXION -->
                 <a
                     href="{% url 'deconnexion' %}"
@@ -93,7 +125,9 @@
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Déconnexion</span>
                 </a>
+
             {% else %}
+
                 <!-- CONNEXION -->
                 <a
                     href="{% url 'connexion' %}"
@@ -101,6 +135,7 @@
                 >
                     Se connecter
                 </a>
+
                 <!-- INSCRIPTION -->
                 <a
                     href="{% url 'inscription' %}"
@@ -108,7 +143,11 @@
                 >
                     Créer un compte
                 </a>
+
             {% endif %}
+
         </div>
+
     </nav>
 </header>
+

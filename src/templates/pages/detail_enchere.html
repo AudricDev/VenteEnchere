@@ -1,78 +1,654 @@
 {% extends "layouts/base.html" %}
+
 {% block content %}
-    <main>
-        <div class="container_detail">
-            <div class="container_image">
-                <div class="g_image">
-                    <img src="{{details.photos.first.image.url}}" alt="">
+
+<main class="detail_enchere">
+
+    <div class="enchere_container">
+
+        <!-- IMAGE -->
+        <div class="enchere_image">
+
+            {% with photo=enchere.produit.photos.first %}
+
+                {% if photo %}
+                    <img
+                        src="{{ photo.image.url }}"
+                        alt="{{ enchere.produit.nom }}"
+                    >
+                {% else %}
+                    <div class="image_vide">
+                        <i class="fa-solid fa-image"></i>
+                        <span>Aucune image</span>
+                    </div>
+                {% endif %}
+
+            {% endwith %}
+
+        </div>
+
+
+        <!-- INFORMATIONS -->
+        <div class="enchere_infos">
+
+            <span class="badge_enchere">
+                <i class="fa-solid fa-gavel"></i>
+                Enchère
+            </span>
+
+            <h1>
+                {{ enchere.titre }}
+            </h1>
+
+            <p class="description">
+                {{ enchere.description }}
+            </p>
+
+
+            <div class="infos_produit">
+
+                <div>
+                    <span>Produit</span>
+                    <strong>{{ enchere.produit.nom }}</strong>
                 </div>
-                <div class="p_image">
-                    <img src="{{details.photos.first.image.url}}" alt="">
-                    <img src="{{details.photos.first.image.url}}" alt="">
-                    <img src="{{details.photos.first.image.url}}" alt="">
-                    <img src="{{details.photos.first.image.url}}" alt="">
+
+                <div>
+                    <span>Catégorie</span>
+                    <strong>{{ enchere.produit.categorie.nom }}</strong>
                 </div>
+
+                <div>
+                    <span>Vendeur</span>
+                    <strong>
+                        {{ enchere.vendeur.user.username }}
+                    </strong>
+                </div>
+
             </div>
-            <div class="container_description">
-                <div class="btn_inscrire_encheres">
-                    <a href="{% url 'inscription_enchere' %}">
-                        <button>S'INSCRIRE POUR ENCHERIR</button>
+
+
+            <!-- PRIX -->
+
+            <div class="prix_box">
+
+                <span>Prix actuel</span>
+
+                <strong>
+                    {% if enchere.prix_actuel %}
+                        {{ enchere.prix_actuel }} Ar
+                    {% else %}
+                        {{ enchere.prix_depart }} Ar
+                    {% endif %}
+                </strong>
+
+            </div>
+
+
+            <!-- DATES -->
+
+            <div class="dates_enchere">
+
+                <div>
+                    <i class="fa-regular fa-calendar"></i>
+
+                    <div>
+                        <span>Début</span>
+                        <strong>
+                            {{ enchere.date_debut|date:"d/m/Y H:i" }}
+                        </strong>
+                    </div>
+                </div>
+
+                <div>
+                    <i class="fa-regular fa-clock"></i>
+
+                    <div>
+                        <span>Fin</span>
+                        <strong>
+                            {{ enchere.date_fin|date:"d/m/Y H:i" }}
+                        </strong>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- PARTICIPATION -->
+
+            {% if request.user.profilutilisateur.role == "Acheteur" %}
+
+                {% if inscrit %}
+
+                    <div class="inscription_ok">
+
+                        <i class="fa-solid fa-circle-check"></i>
+
+                        <div>
+                            <strong>Vous êtes inscrit</strong>
+
+                            <span>
+                                Vous pouvez maintenant participer
+                                à cette enchère.
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <a
+                        href="#section_offre"
+                        class="btn_encherir"
+                    >
+                        <i class="fa-solid fa-gavel"></i>
+                        Faire une offre
                     </a>
-                </div>
-                <div class="lieux_enchere">
-                    Antananarivo - Madagascar
-                </div>
-                <div class="titre_enchere">
-                    {{details.nom}}
+
+                {% else %}
+
+                    <form
+                        method="POST"
+                        action="{% url 'inscrire_enchere' enchere.id %}"
+                    >
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="btn_inscription"
+                        >
+                            <i class="fa-solid fa-user-plus"></i>
+                            S'inscrire à l'enchère
+                        </button>
+
+                    </form>
+
+                    <p class="info_inscription">
+                        Vous devez vous inscrire avant de pouvoir
+                        faire une offre.
+                    </p>
+
+                {% endif %}
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- SECTION OFFRE -->
+
+{% if inscrit %}
+
+<section
+    class="section_offre"
+    id="section_offre"
+>
+
+    <div class="offre_header">
+
+        <div>
+
+            <span class="sur_titre">
+                Participation
+            </span>
+
+            <h2>
+                Faire une offre
+            </h2>
+
+        </div>
+
+        <i class="fa-solid fa-gavel"></i>
+
+    </div>
+
+
+    <!-- PRIX TEMPS RÉEL -->
+
+    <div class="prix_temps_reel">
+
+        <span>
+            Prix actuel
+        </span>
+
+        <strong id="prix_actuel">
+
+            {% if enchere.prix_actuel %}
+                {{ enchere.prix_actuel }}
+            {% else %}
+                {{ enchere.prix_depart }}
+            {% endif %}
+
+            Ar
+
+        </strong>
+
+        <small id="statut_temps_reel">
+            En direct
+        </small>
+
+    </div>
+
+
+    <!-- FORMULAIRE -->
+
+    <form
+        id="form_offre"
+        class="form_offre"
+    >
+
+        {% csrf_token %}
+
+        <div class="input_offre">
+
+            <label for="montant">
+                Votre offre
+            </label>
+
+            <div class="input_prix">
+
+                <input
+                    type="number"
+                    name="montant"
+                    id="montant"
+                    min="0"
+                    step="0.01"
+                    placeholder="Ex : 500000"
+                    required
+                >
+
+                <span>
+                    Ar
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <button type="submit">
+
+            <i class="fa-solid fa-gavel"></i>
+
+            Enchérir
+
+        </button>
+
+    </form>
+
+
+    <!-- MESSAGE -->
+
+    <div
+        id="message_offre"
+        class="message_offre"
+    ></div>
+
+
+    <!-- DERNIÈRES OFFRES -->
+
+    <div class="dernieres_offres">
+
+        <h3>
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            Dernières offres
+        </h3>
+
+        <div id="liste_offres">
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endif %}
+    <!-- SECTION historique OFFRE -->
+<section class="historique_offres">
+
+    <div class="offre_header">
+        <div>
+            <span class="sur_titre">Historique</span>
+            <h2>Les dernières offres</h2>
+        </div>
+
+        <i class="fa-solid fa-list"></i>
+    </div>
+
+    {% if offres %}
+
+        <div class="liste_offres">
+
+            {% for offre in offres %}
+
+                <div class="offre_item">
+
+                    <div class="offre_utilisateur">
+                        <i class="fa-solid fa-user"></i>
+
+                        <div>
+                            <strong>
+                                {{ offre.utilisateur.user.username }}
+                            </strong>
+
+                            <span>
+                                {{ offre.horodatage|date:"d/m/Y à H:i" }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <strong class="offre_montant">
+                        {{ offre.montant }} Ar
+                    </strong>
+
                 </div>
 
-                <div class="prix_enchere">
-                    {{details.produit.enchere.prix_actuel}} Ariary
-                </div>
+            {% endfor %}
 
-                <div class="info_enchere">
-                    <div class="info_box">
-                        <h4>Meilleure offre</h4>
-                        <p>27 enchères</p>
-                    </div>
-                    <div class="info_box">
-                        <h4>Vendeur</h4>
-                        <p>Royal Auction</p>
-                    </div>
-                </div>
-                <div class="detail_encheres">
-                    {{details.description}}
-                </div>
-            </div>
         </div>
-        <div class="tout_description">
-            <div class="desc">
-                <a href="" class="link_description">
-                    Information générale
-                </a>
-            </div>
-            <span class="tire">
-                |
-            </span>
-            <div class="desc">
-                <a href="" class="link_description">
-                    Retrait & Livraison
-                </a>
-            </div>
-            <span class="tire">
-                |
-            </span>
-            <div class="desc">
-                <a href="" class="link_description">
-                    Frais & condition de vente
-                </a>
-            </div>
+
+    {% else %}
+
+        <div class="aucune_offre">
+            <i class="fa-solid fa-gavel"></i>
+            <p>Aucune offre pour le moment.</p>
         </div>
-        <div class="tout_description">
-                    Cette montre Rolex Submariner est vendue aux enchères avec certificat
-                    d'authenticité. Elle est en excellent état, accompagnée de sa boîte
-                    d'origine et de tous ses accessoires. Les enchères restent ouvertes
-                    jusqu'à la fin du compte à rebours.
-        </div>
-    </main>
-{% endblock  %}
+
+    {% endif %}
+
+</section>
+
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // =========================================================
+        // 1. CONNEXION WEBSOCKET
+        // =========================================================
+
+        const protocol = window.location.protocol === "https:"
+            ? "wss://"
+            : "ws://";
+
+        const socket = new WebSocket(
+            protocol +
+            window.location.host +
+            "/ws/enchere/{{ enchere.id }}/"
+        );
+
+
+        // =========================================================
+        // 2. ÉLÉMENTS HTML
+        // =========================================================
+
+        const formOffre = document.getElementById("form_offre");
+        const montantInput = document.getElementById("montant");
+        const prixActuel = document.getElementById("prix_actuel");
+        const messageOffre = document.getElementById("message_offre");
+        const listeOffres = document.getElementById("liste_offres");
+        const statutTempsReel = document.getElementById("statut_temps_reel");
+
+
+        // =========================================================
+        // 3. CONNEXION
+        // =========================================================
+
+        socket.onopen = function () {
+
+            console.log("✅ WebSocket connecté");
+
+            if (statutTempsReel) {
+                statutTempsReel.textContent = "● En direct";
+            }
+
+        };
+
+
+        // =========================================================
+        // 4. RÉCEPTION DES MESSAGES
+        // =========================================================
+
+        socket.onmessage = function (event) {
+
+            console.log("📩 Message reçu :", event.data);
+
+            const data = JSON.parse(event.data);
+
+
+            // -----------------------------------------------------
+            // NOUVELLE OFFRE
+            // -----------------------------------------------------
+
+            if (data.type === "nouvelle_offre") {
+
+                console.log(
+                    "💰 Nouvelle offre :",
+                    data.montant,
+                    "par",
+                    data.utilisateur
+                );
+
+
+                // Mise à jour du prix actuel
+
+                if (prixActuel) {
+
+                    prixActuel.textContent =
+                        Number(data.montant).toLocaleString("fr-FR")
+                        + " Ar";
+
+                }
+
+
+                // Ajouter l'offre dans la liste
+
+                if (listeOffres) {
+
+                    const offre = document.createElement("div");
+
+                    offre.classList.add("offre_item");
+
+                    offre.innerHTML = `
+                        <div class="offre_utilisateur">
+
+                            <i class="fa-solid fa-user"></i>
+
+                            <div>
+
+                                <strong>
+                                    ${data.utilisateur}
+                                </strong>
+
+                                <span>
+                                    ${data.date}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <strong class="offre_montant">
+                            ${Number(data.montant).toLocaleString("fr-FR")} Ar
+                        </strong>
+                    `;
+
+                    // Ajouter la nouvelle offre en première position
+
+                    listeOffres.prepend(offre);
+
+                }
+
+
+                // Message de confirmation
+
+                if (messageOffre) {
+
+                    messageOffre.textContent =
+                        `Nouvelle offre : ${Number(data.montant).toLocaleString("fr-FR")} Ar`;
+
+                    messageOffre.className =
+                        "message_offre succes";
+
+                }
+
+            }
+
+
+            // -----------------------------------------------------
+            // ERREUR
+            // -----------------------------------------------------
+
+            else if (data.type === "erreur") {
+
+                console.error(
+                    "❌ Erreur :",
+                    data.message
+                );
+
+
+                if (messageOffre) {
+
+                    messageOffre.textContent =
+                        data.message;
+
+                    messageOffre.className =
+                        "message_offre erreur";
+
+                }
+
+            }
+
+        };
+
+
+        // =========================================================
+        // 5. ENVOI D'UNE OFFRE
+        // =========================================================
+
+        if (formOffre) {
+
+            formOffre.addEventListener("submit", function (event) {
+
+                event.preventDefault();
+
+
+                // Vérifier la connexion
+
+                if (socket.readyState !== WebSocket.OPEN) {
+
+                    if (messageOffre) {
+
+                        messageOffre.textContent =
+                            "La connexion au serveur n'est pas disponible.";
+
+                        messageOffre.className =
+                            "message_offre erreur";
+
+                    }
+
+                    return;
+                }
+
+
+                // Récupérer le montant
+
+                const montant = montantInput.value.trim();
+
+
+                if (!montant) {
+
+                    if (messageOffre) {
+
+                        messageOffre.textContent =
+                            "Veuillez saisir un montant.";
+
+                        messageOffre.className =
+                            "message_offre erreur";
+
+                    }
+
+                    return;
+                }
+
+
+                console.log(
+                    "📤 Envoi de l'offre :",
+                    montant
+                );
+
+
+                // Envoyer au Consumer
+
+                socket.send(
+                    JSON.stringify({
+                        montant: montant
+                    })
+                );
+
+
+                // Nettoyer le champ
+
+                montantInput.value = "";
+
+            });
+
+        }
+
+
+        // =========================================================
+        // 6. ERREUR WEBSOCKET
+        // =========================================================
+
+        socket.onerror = function (error) {
+
+            console.error(
+                "❌ Erreur WebSocket :",
+                error
+            );
+
+
+            if (statutTempsReel) {
+
+                statutTempsReel.textContent =
+                    "● Erreur de connexion";
+
+            }
+
+        };
+
+
+        // =========================================================
+        // 7. FERMETURE WEBSOCKET
+        // =========================================================
+
+        socket.onclose = function (event) {
+
+            console.log(
+                "🔴 WebSocket fermé :",
+                event.code
+            );
+
+
+            if (statutTempsReel) {
+
+                statutTempsReel.textContent =
+                    "● Hors ligne";
+
+            }
+
+        };
+
+    });
+</script>
+
+
+
+
+
+
+</main>
+
+{% endblock %}

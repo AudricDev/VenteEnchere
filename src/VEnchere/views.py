@@ -1,14 +1,32 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.decorators import login_required
 from .models import *
+from decimal import Decimal
 # Create your views here.
 #@login_required
 def index(request):
-    product = Produit.objects.all()
-    return render(request, 'index.html',{"products":product})
+
+    encheres = Enchere.objects.filter(
+        statut="ouverte"
+    ).select_related(
+        "produit",
+        "produit__categorie",
+        "vendeur__user"
+    ).prefetch_related(
+        "produit__photos"
+    ).order_by("date_fin")
+
+    return render(
+        request,
+        "index.html",
+        {
+            "encheres": encheres
+        }
+    )
 
 def connexion(request):
     errors = []
@@ -76,12 +94,38 @@ def inscription(request):
 def inscription_enchere(request):
     return render(request,'pages/incription_enchere.html')
 
-def detail_enchere(request,id):
-    detail = Produit.objects.filter(id=id).first()
-    return render(request,
-        'pages/detail_enchere.html',
-        {"details":detail}
-        )
+@login_required
+def detail_enchere(request, enchere_id):
+
+    enchere = get_object_or_404(
+        Enchere,
+        id=enchere_id
+    )
+
+    profil = request.user.profilutilisateur
+
+    inscrit = Participation.objects.filter(
+        acheteur=profil,
+        enchere=enchere
+    ).exists()
+
+    offres = Offre.objects.filter(
+        enchere=enchere
+    ).select_related(
+        "utilisateur__user"
+    ).order_by(
+        "-montant"
+    )
+
+    return render(
+        request,
+        "pages/detail_enchere.html",
+        {
+            "enchere": enchere,
+            "inscrit": inscrit,
+            "offres": offres,
+        }
+    )
 
 # création d'enchere
 def pageCreerEnchere(request):
@@ -383,4 +427,225 @@ def admin_dashboard(request):
         request,
         "admin/dashboard.html",
         context
+    )
+
+
+@login_required
+def inscrire_enchere(request, enchere_id):
+    enchere = get_object_or_404(
+        Enchere,
+        id=enchere_id
+    )
+    profil = request.user.profilutilisateur
+
+    if profil.role != "Acheteur":
+        messages.error(
+            request,
+            "Seuls les acheteurs peuvent participer à une enchère."
+        )
+        return redirect(
+            "detail_enchere",
+            enchere_id=enchere.id
+        )
+
+    if enchere.vendeur == profil:
+        messages.error(
+            request,
+            "Vous ne pouvez pas participer à votre propre enchère."
+        )
+        return redirect(
+            "detail_enchere",
+            enchere_id=enchere.id
+        )
+
+    if enchere.statut != "ouverte":
+        messages.error(
+            request,
+            "Cette enchère n'est pas ouverte."
+        )
+        return redirect(
+            "detail_enchere",
+            enchere_id=enchere.id
+        )
+    participation = Participation.objects.create(
+        acheteur=profil,
+        enchere=enchere
+    )
+    # Vérification immédiate
+    verification = Participation.objects.filter(
+        acheteur=profil,
+        enchere=enchere
+    ).exists()
+
+    messages.success(
+        request,
+        "Vous êtes maintenant inscrit à cette enchère."
+    )
+
+    return redirect(
+        "detail_enchere",
+        enchere_id=enchere.id
+    )
+
+# encherissement
+@login_required
+def faire_offre(request, enchere_id):
+    print("========== FAIRE OFFRE ==========")
+    print("Méthode :", request.method)
+    print("Montant reçu :", request.POST.get("montant"))
+
+    if request.method != "POST":
+        return redirect(
+            "detail_enchere",
+            enchere_id=enchere_id
+        )
+
+    enchere = get_object_or_404(
+        Enchere,
+        id=enchere_id
+    )
+
+    profil = request.user.profilutilisateur
+
+    # Vérifier le rôle
+    if profil.role != "Acheteur":
+        messages.error(
+            request,
+            "Seuls les acheteurs peuvent enchérir."
+        )
+        return redirect(
+            "detail_enchere",
+            enchere_id=enchere.id
+        )
+
+    # Le vendeur ne peut pas enchérir
+    if enchere.vendeur == profil:
+        messages.error(
+            request,
+            "Vous ne pouvez pas enchérir sur votre propre enchère."
+        )
+        return redirect(
+            "detail_enchere",
+            enchere_id=enchere.id
+        )
+
+    # Vérifier l'inscription
+    inscrit = Participation.objects.filter(
+        acheteur=profil,
+        enchere=enchere
+    ).exists()
+
+    if not inscrit:
+        messages.error(
+            request,
+            "Vous devez d'abord vous inscrire à cette enchère."
+        )
+        return redirect(
+            "detail_enchere",
+            enchere_id=enchere.id
+        )
+
+    # Vérifier le statut
+    if enchere.statut != "ouverte":
+        messages.error(
+            request,
+            "Cette enchère n'est pas ouverte."
+        )
+        return redirect(
+            "detail_enchere",
+            enchere_id=enchere.id
+        )
+
+    # Vérifier les dates
+    maintenant = timezone.now()
+
+    if maintenant < enchere.date_debut:
+        messages.error(
+            request,
+            "Cette enchère n'a pas encore commencé."
+        )
+        return redirect(
+            "detail_enchere",
+            enchere_id=enchere.id
+        )
+
+    if maintenant >= enchere.date_fin:
+        messages.error(
+            request,
+            "Cette enchère est terminée."
+        )
+        return redirect(
+            "detail_enchere",
+            enchere_id=enchere.id
+        )
+
+    # Récupérer le montant
+    montant_saisi = request.POST.get("montant")
+
+    if not montant_saisi:
+        messages.error(
+            request,
+            "Veuillez saisir un montant."
+        )
+        return redirect(
+            "detail_enchere",
+            enchere_id=enchere.id
+        )
+
+    # Convertir en Decimal
+    try:
+        montant = Decimal(montant_saisi)
+    except:
+        messages.error(
+            request,
+            "Le montant saisi est invalide."
+        )
+        return redirect(
+            "detail_enchere",
+            enchere_id=enchere.id
+        )
+
+    # Déterminer le prix actuel
+    prix_actuel = (
+        enchere.prix_actuel
+        if enchere.prix_actuel is not None
+        else enchere.prix_depart
+    )
+
+    # Vérifier que l'offre est supérieure
+    if montant <= prix_actuel:
+        messages.error(
+            request,
+            f"Votre offre doit être supérieure à {prix_actuel} Ar."
+        )
+        return redirect(
+            "detail_enchere",
+            enchere_id=enchere.id
+        )
+
+    # Créer l'offre
+    offre = Offre.objects.create(
+        montant=montant,
+        utilisateur=profil,
+        enchere=enchere
+    )
+
+    print("========== OFFRE CRÉÉE ==========")
+    print("ID :", offre.id)
+    print("Montant :", offre.montant)
+    print("Acheteur :", offre.utilisateur)
+    print("Enchère :", offre.enchere)
+
+    # Mettre à jour le prix actuel
+    enchere.prix_actuel = montant
+    enchere.save(update_fields=["prix_actuel"])
+
+    messages.success(
+        request,
+        f"Votre offre de {montant} Ar a été enregistrée."
+    )
+
+    return redirect(
+        "detail_enchere",
+        enchere_id=enchere.id
     )

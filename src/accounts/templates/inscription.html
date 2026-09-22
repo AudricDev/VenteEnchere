@@ -1,52 +1,233 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion</title>
+
+    <title>Inscription | Royal Enchère</title>
+
     {% load static %}
-    <link rel="stylesheet" href="{% static "css/style.css" %}">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'fontawesome-free-6.2.1-web/css/all.min.css' %}">
+
 </head>
-<body>
-    <div class="container_formulaire">
-        <div class="container_connexion">
-            <div class="container_logo">
-                <div class="logo_formulaire">
-                    <marquee behavior="" direction="left">
-                        <a href="{% url 'index' %}">Royal enchère</a>
-                    </marquee>
+
+
+<body class="page_auth">
+
+    <main class="auth_container">
+
+        <div class="auth_card">
+
+
+            <!-- PARTIE GAUCHE -->
+            <section class="auth_visual">
+
+                <a href="{% url 'index' %}" class="auth_logo">
+                    <span>Royal</span>
+                    <strong>enchère</strong>
+                </a>
+
+
+                <div class="auth_hammer">
+                    <img
+                        src="{% static 'images/marteau-enchère3mdf.png' %}"
+                        alt="Royal Enchère"
+                    >
                 </div>
-                <div class="image_logo">
-                    <img src="{% static 'images/marteau-enchère3mdf.png' %}" alt="">
+
+
+                <div class="auth_visual_text">
+
+                    <span>REJOIGNEZ-NOUS</span>
+
+                    <h2>
+                        Entrez dans<br>
+                        l'univers<br>
+                        des enchères.
+                    </h2>
+
+                    <p>
+                        Créez votre compte et découvrez
+                        une nouvelle manière de participer
+                        aux enchères.
+                    </p>
+
                 </div>
-            </div>
-            <div class="container_form">
-                <div class="titre_form">FORMULAIRE</div>
-                <div class="formulaire">
-                    <form action="{% url 'inscription' %}" method="POST">
-                        {% csrf_token %}
-                        {% if erreur %}
-                            <p class="erreur">{{ erreur }}</p>
-                        {% endif %}
-                        <div class="form_control">
-                            <input class="email" type="email" placeholder="Votre@gmail.com" name="email">
-                        </div>
-                        <div class="form_control">
-                            <input class="mdp" type="password" placeholder="Insérez votre mot de passe" name="mdp1">
-                        </div>
-                        <div class="form_control">
-                            <input class="mdp" type="password" placeholder="Confirmez votre mot de passe" name="mdp2">
-                        </div>
-                        <div class="form_control">
-                            <input class="btn_connexion" type="submit" value="Enregistrer">
-                        </div>
-                        <div class="form_controls">
-                            <a href="{% url 'connexion' %}">J'ai déjà un compte</a>
-                        </div>
-                    </form>
+
+            </section>
+
+
+
+            <!-- PARTIE DROITE -->
+            <section class="auth_form">
+
+                <div class="auth_form_header">
+
+                    <span class="auth_small_title">
+                        ROYAL ENCHÈRE
+                    </span>
+
+                    <h1>
+                        Créer un compte
+                    </h1>
+
+                    <p>
+                        Inscrivez-vous gratuitement
+                        pour commencer votre aventure.
+                    </p>
+
                 </div>
-            </div>
+
+
+                {% if erreur %}
+
+                    <div class="auth_messages error">
+
+                        <i class="fa-solid fa-circle-exclamation"></i>
+
+                        <span>
+                            {{ erreur }}
+                        </span>
+
+                    </div>
+
+                {% endif %}
+
+
+
+                <form
+                    action="{% url 'inscription' %}"
+                    method="POST"
+                    class="auth_formulaire"
+                >
+
+                    {% csrf_token %}
+
+
+                    <!-- EMAIL -->
+                    <div class="auth_field">
+
+                        <label for="email">
+                            Adresse email
+                        </label>
+
+                        <div class="auth_input">
+
+                            <i class="fa-regular fa-envelope"></i>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="Votre adresse email"
+                                autocomplete="email"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- MOT DE PASSE -->
+                    <div class="auth_field">
+
+                        <label for="mdp1">
+                            Mot de passe
+                        </label>
+
+                        <div class="auth_input">
+
+                            <i class="fa-solid fa-lock"></i>
+
+                            <input
+                                type="password"
+                                id="mdp1"
+                                name="mdp1"
+                                placeholder="Choisissez un mot de passe"
+                                autocomplete="new-password"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- CONFIRMATION -->
+                    <div class="auth_field">
+
+                        <label for="mdp2">
+                            Confirmation du mot de passe
+                        </label>
+
+                        <div class="auth_input">
+
+                            <i class="fa-solid fa-shield-halved"></i>
+
+                            <input
+                                type="password"
+                                id="mdp2"
+                                name="mdp2"
+                                placeholder="Confirmez votre mot de passe"
+                                autocomplete="new-password"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- BOUTON -->
+                    <button
+                        type="submit"
+                        class="auth_btn"
+                    >
+
+                        <span>
+                            Créer mon compte
+                        </span>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </button>
+
+                </form>
+
+
+
+                <div class="auth_separator">
+                    <span>OU</span>
+                </div>
+
+
+
+                <div class="auth_footer">
+
+                    <p>
+                        Vous avez déjà un compte ?
+                    </p>
+
+                    <a href="{% url 'connexion' %}">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        Se connecter
+                    </a>
+
+                </div>
+
+            </section>
+
         </div>
-    </div>
+
+    </main>
+
 </body>
 </html>

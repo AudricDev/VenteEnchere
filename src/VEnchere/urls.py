@@ -5,7 +5,6 @@ urlpatterns = [
     path('connexion/',views.connexion,name='connexion'),
     path('deconnexion/',views.deconnexion,name='deconnexion'),
     path('inscription/',views.inscription,name='inscription'),
-    path('detail_enchere/<uuid:id>',views.detail_enchere,name='detail_enchere'),
     path('inscription_enchere/',views.inscription_enchere,name='inscription_enchere'),
     path('pageCreerEnchere/',views.pageCreerEnchere,name='pageCreerEnchere'),
     path('profil/',views.modifier_profil_page,name='modifier_profil_page'),
@@ -17,4 +16,19 @@ urlpatterns = [
         views.admin_dashboard,
         name="admin_dashboard"
     ),    
+    path(
+    "enchere/<uuid:enchere_id>/inscription/",
+    views.inscrire_enchere,
+    name="inscrire_enchere"
+),
+    path(
+    "enchere/<uuid:enchere_id>/",
+    views.detail_enchere,
+    name="detail_enchere"
+),
+path(
+    "enchere/<uuid:enchere_id>/offre/",
+    views.faire_offre,
+    name="faire_offre"
+),
 ]

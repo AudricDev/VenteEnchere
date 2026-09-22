@@ -1,49 +1,193 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion</title>
+
+    <title>Connexion | Royal Enchère</title>
+
     {% load static %}
-    <link rel="stylesheet" href="{% static "css/style.css" %}">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'fontawesome-free-6.2.1-web/css/all.min.css' %}">
 </head>
-<body>
-    <div class="container_formulaire">
-        <div class="container_connexion">
-            <div class="container_logo">
-                <div class="logo_formulaire">
-                    <marquee behavior="" direction="left">
-                        <a href="{% url 'index' %}">Royal enchère</a>
-                    </marquee>
+
+<body class="page_auth">
+
+    <main class="auth_container">
+
+        <div class="auth_card">
+
+            <!-- PARTIE GAUCHE -->
+            <section class="auth_visual">
+
+                <a href="{% url 'index' %}" class="auth_logo">
+                    <span>Royal</span>
+                    <strong>enchère</strong>
+                </a>
+
+                <div class="auth_hammer">
+                    <img
+                        src="{% static 'images/marteau-enchère3mdf.png' %}"
+                        alt="Royal Enchère"
+                    >
                 </div>
-                <div class="image_logo">
-                    <img src="{% static 'images/marteau-enchère3mdf.png' %}" alt="">
+
+                <div class="auth_visual_text">
+                    <span>ROYAL ENCHÈRE</span>
+
+                    <h2>
+                        L'excellence<br>
+                        n'attend que<br>
+                        votre offre.
+                    </h2>
+
+                    <p>
+                        Rejoignez notre plateforme et participez
+                        à des enchères passionnantes en toute simplicité.
+                    </p>
                 </div>
-            </div>
-            <div class="container_form">
-                <div class="titre_form">Connexion</div>
-                <div class="formulaire">
-                    <form action="{% url 'connexion' %}" method="POST">
-                        {% csrf_token %}
-                        {% for error in errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                        <div class="form_control">
-                            <input class="email" type="email" placeholder="Votre@gmail.com" name="email">
-                        </div>
-                        <div class="form_control">
-                            <input class="mdp" type="password" placeholder="Insérez votre mot de passe" name="password">
-                        </div>
-                        <div class="form_control">
-                            <input class="btn_connexion" type="submit" value="Se connecter">
-                        </div>
-                        <div class="form_controls">
-                            <a href="{% url "inscription" %}">Créer un compte</a>
-                        </div>
-                    </form>
+
+            </section>
+
+
+            <!-- PARTIE DROITE -->
+            <section class="auth_form">
+
+                <div class="auth_form_header">
+
+                    <span class="auth_small_title">
+                        BIENVENUE
+                    </span>
+
+                    <h1>
+                        Connexion
+                    </h1>
+
+                    <p>
+                        Connectez-vous à votre compte
+                        pour accéder à vos enchères.
+                    </p>
+
                 </div>
-            </div>
+
+
+                {% if errors %}
+
+                    <div class="auth_messages error">
+
+                        <i class="fa-solid fa-circle-exclamation"></i>
+
+                        <div>
+                            {% for error in errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+
+                <form
+                    action="{% url 'connexion' %}"
+                    method="POST"
+                    class="auth_formulaire"
+                >
+
+                    {% csrf_token %}
+
+                    <!-- EMAIL -->
+                    <div class="auth_field">
+
+                        <label for="email">
+                            Adresse email
+                        </label>
+
+                        <div class="auth_input">
+
+                            <i class="fa-regular fa-envelope"></i>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="Votre adresse email"
+                                autocomplete="email"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- MOT DE PASSE -->
+                    <div class="auth_field">
+
+                        <label for="password">
+                            Mot de passe
+                        </label>
+
+                        <div class="auth_input">
+
+                            <i class="fa-solid fa-lock"></i>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Votre mot de passe"
+                                autocomplete="current-password"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BOUTON -->
+                    <button
+                        type="submit"
+                        class="auth_btn"
+                    >
+
+                        <span>
+                            Se connecter
+                        </span>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </button>
+
+                </form>
+
+
+                <div class="auth_separator">
+                    <span>OU</span>
+                </div>
+
+
+                <div class="auth_footer">
+
+                    <p>
+                        Vous n'avez pas encore de compte ?
+                    </p>
+
+                    <a href="{% url 'inscription' %}">
+                        <i class="fa-solid fa-user-plus"></i>
+                        Créer un compte
+                    </a>
+
+                </div>
+
+            </section>
+
         </div>
-    </div>
+
+    </main>
+
 </body>
 </html>

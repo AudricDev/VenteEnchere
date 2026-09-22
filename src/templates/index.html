@@ -306,119 +306,155 @@
 
     <section id="nosEnchere" class="section_encheres">
 
-    
-    <!-- TITRE -->
-    <div class="entete_encheres">
+        
+        <!-- TITRE -->
+        <div class="entete_encheres">
 
-        <div>
-            <span class="petit_titre">
-                ROYAL ENCHÈRE
-            </span>
+            <div>
+                <span class="petit_titre">
+                    ROYAL ENCHÈRE
+                </span>
 
-            <h2>
-                Découvrez nos enchères
-            </h2>
+                <h2>
+                    Découvrez nos enchères
+                </h2>
 
-            <p>
-                Trouvez des produits uniques et participez
-                aux enchères en cours.
-            </p>
+                <p>
+                    Trouvez des produits uniques et participez
+                    aux enchères en cours.
+                </p>
+            </div>
+
+            <a href="#" class="voir_tout">
+                Voir toutes les enchères
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
         </div>
-
-        <a href="#" class="voir_tout">
-            Voir toutes les enchères
-            <i class="fa-solid fa-arrow-right"></i>
-        </a>
-
-    </div>
-    <!-- RECHERCHE + CATEGORIES -->
-    <div class="barre_encheres">
-        <form action="" method="get" class="recherche_enchere">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input
-                type="search"
-                name="search"
-                placeholder="Rechercher une enchère..."
-            >
-            <button type="submit">
-                Rechercher
-            </button>
-        </form>
-        <div class="categories_encheres">
-            <a href="#" class="categorie active">
-                <i class="fa-solid fa-border-all"></i>
-                Toutes
-            </a>
-            <a href="#" class="categorie">
-                <i class="fa-solid fa-car"></i>
-                Véhicules
-            </a>
-            <a href="#" class="categorie">
-                <i class="fa-solid fa-house"></i>
-                Immobilier
-            </a>
-            <a href="#" class="categorie">
-                <i class="fa-solid fa-palette"></i>
-                Arts
-            </a>
-            <a href="#" class="categorie">
-                <i class="fa-solid fa-gem"></i>
-                Collections
-            </a>
+        <!-- RECHERCHE + CATEGORIES -->
+        <div class="barre_encheres">
+            <form action="" method="get" class="recherche_enchere">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input
+                    type="search"
+                    name="search"
+                    placeholder="Rechercher une enchère..."
+                >
+                <button type="submit">
+                    Rechercher
+                </button>
+            </form>
+            <div class="categories_encheres">
+                <a href="#" class="categorie active">
+                    <i class="fa-solid fa-border-all"></i>
+                    Toutes
+                </a>
+                <a href="#" class="categorie">
+                    <i class="fa-solid fa-car"></i>
+                    Véhicules
+                </a>
+                <a href="#" class="categorie">
+                    <i class="fa-solid fa-house"></i>
+                    Immobilier
+                </a>
+                <a href="#" class="categorie">
+                    <i class="fa-solid fa-palette"></i>
+                    Arts
+                </a>
+                <a href="#" class="categorie">
+                    <i class="fa-solid fa-gem"></i>
+                    Collections
+                </a>
+            </div>
         </div>
-    </div>
-    <!-- LISTE DES ENCHERES -->
-    <div class="grille_encheres">
-        {% for prod in products %}
+        <!-- LISTE DES ENCHERES -->
+        <div class="grille_encheres">
+
+        {% for enchere in encheres %}
+
         <article class="carte_enchere">
+
             <!-- IMAGE -->
             <div class="image_enchere">
-                {% if prod.photos.first %}
+
+                {% if enchere.produit.photos.first %}
+
                     <img
-                        src="{{ prod.photos.first.image.url }}"
-                        alt="{{ prod.nom }}"
+                        src="{{ enchere.produit.photos.first.image.url }}"
+                        alt="{{ enchere.produit.nom }}"
                     >
+
                 {% else %}
+
                     <div class="image_vide">
                         <i class="fa-solid fa-image"></i>
                     </div>
+
                 {% endif %}
-                <!-- BADGE -->
+
                 <span class="badge_enchere">
                     <i class="fa-solid fa-circle"></i>
                     En cours
                 </span>
-                <!-- FAVORI -->
-                <button class="btn_favori" type="button">
+
+                <button
+                    class="btn_favori"
+                    type="button"
+                >
                     <i class="fa-regular fa-heart"></i>
                 </button>
+
             </div>
+
+
             <!-- CONTENU -->
             <div class="contenu_enchere">
+
                 <div class="categorie_produit">
-                    {{ prod.categorie.nom }}
+                    {{ enchere.produit.categorie.nom }}
                 </div>
+
                 <h3>
-                    {{ prod.nom }}
+                    {{ enchere.titre }}
                 </h3>
+
                 <p class="description_enchere">
-                    {{ prod.description|truncatewords:12 }}
+                    {{ enchere.description|truncatewords:12 }}
                 </p>
+
+
                 <!-- PRIX -->
                 <div class="prix_enchere">
+
                     <div>
+
                         <span>
                             Prix actuel
                         </span>
+
                         <strong>
-                            250 000 Ar
+
+                            {% if enchere.prix_actuel %}
+                                {{ enchere.prix_actuel }} Ar
+                            {% else %}
+                                {{ enchere.prix_depart }} Ar
+                            {% endif %}
+
                         </strong>
+
                     </div>
+
                     <div class="nombre_offres">
+
                         <i class="fa-solid fa-gavel"></i>
-                        12 offres
+
+                        {{ enchere.offres.count }} offres
+
                     </div>
+
                 </div>
+
+
                 <!-- TEMPS -->
                 <div class="temps_enchere">
 
@@ -427,37 +463,64 @@
                     </div>
 
                     <div>
+
                         <span>
-                            Temps restant
+                            Fin de l'enchère
                         </span>
 
                         <strong>
-                            20:30:05
+                            {{ enchere.date_fin|date:"d/m/Y H:i" }}
                         </strong>
+
                     </div>
+
                 </div>
+
+
                 <!-- BOUTON -->
+                 {% if request.user.is_authenticated %}
                 <a
-                    href="{% url 'detail_enchere' prod.id %}"
+                    href="{% url 'detail_enchere' enchere.id %}"
                     class="btn_participer"
                 >
                     Participer à l'enchère
 
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
+                 
+                 {% else %}
+                <a
+                    href="{% url 'inscription_enchere'%}"
+                    class="btn_participer"
+                >
+                    Participer à l'enchère
+
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                 {% endif %}
+
             </div>
+
         </article>
+
         {% empty %}
-        <div class="aucune_enchere">
-            <i class="fa-solid fa-gavel"></i>
-            <h3>
-                Aucune enchère disponible
-            </h3>
-            <p>
-                Il n'y a actuellement aucune enchère en cours.
-            </p>
-        </div>
+
+            <div class="aucune_enchere">
+
+                <i class="fa-solid fa-gavel"></i>
+
+                <h3>
+                    Aucune enchère disponible
+                </h3>
+
+                <p>
+                    Il n'y a actuellement aucune enchère en cours.
+                </p>
+
+            </div>
+
         {% endfor %}
+
     </div>
     </section>
     <section id="avantages" class="section_avantages">
